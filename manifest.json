@@ -1,0 +1,9 @@
+{
+    "id": "better-task",
+    "name": "Better Task",
+    "version": "1.0.0",
+    "minAppVersion": "1.11.5",
+    "description": "A better task management plugin.",
+    "author": "Alvin",
+    "isDesktopOnly": false
+}
