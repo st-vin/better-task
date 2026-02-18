@@ -22,8 +22,8 @@ export class UnitModal extends Modal {
 
         // Unit Name
         new Setting(contentEl)
-            .setName('Unit Name')
-            .setDesc('Full name of the unit/course')
+            .setName('Unit name')
+            .setDesc('Full name of the unit or course')
             .addText(text => text
                 .setPlaceholder('e.g., Introduction to Computer Science')
                 .setValue(this.unitData.name || '')
@@ -33,7 +33,7 @@ export class UnitModal extends Modal {
 
         // Unit Code
         new Setting(contentEl)
-            .setName('Unit Code')
+            .setName('Unit code')
             .setDesc('Course code or number')
             .addText(text => text
                 .setPlaceholder('e.g., CS101')
@@ -87,7 +87,7 @@ export class UnitModal extends Modal {
         });
 
         const addAnotherBtn = buttonContainer.createEl('button', {
-            text: 'Create & add another'
+            text: 'Create and add another'
         });
         addAnotherBtn.addEventListener('click', () => {
             if (this.validateForm()) {
@@ -116,7 +116,7 @@ export class UnitModal extends Modal {
 
     validateForm(): boolean {
         if (!this.unitData.name || !this.unitData.code) {
-            new Notice('Please fill in unit name and code'); // Use Notice instead of alert
+            new Notice('Please fill in unit name and code.'); // Use Notice instead of alert
             return false;
         }
         return true;

@@ -63,7 +63,7 @@ export default class BetterTaskPlugin extends Plugin {
                 void (async () => {
                     this.data.settings.hasSeenWelcome = true;
                     await this.savePluginData();
-                    this.activateView();
+                    await this.activateView();
                 })();
             }).open();
         }

@@ -44,7 +44,7 @@ var init_examModal = __esm({
         const { contentEl } = this;
         contentEl.empty();
         contentEl.createEl("h2", { text: `Add exam for ${this.unit.name}` });
-        new import_obsidian7.Setting(contentEl).setName("Exam Title").setDesc("Name or type of the exam").addText((text) => text.setPlaceholder("e.g., Midterm Exam, Final Exam").onChange((value) => {
+        new import_obsidian7.Setting(contentEl).setName("Exam title").setDesc("Name or type of the exam").addText((text) => text.setPlaceholder("e.g., Midterm Exam, Final Exam").onChange((value) => {
           this.examData.title = value;
         }));
         new import_obsidian7.Setting(contentEl).setName("Date").setDesc("Exam date").addText((text) => {
@@ -79,12 +79,12 @@ var init_examModal = __esm({
           cls: "mod-cta"
         });
         const addAnotherBtn = buttonContainer.createEl("button", {
-          text: "Add & another",
+          text: "Add and add another",
           attr: { style: "margin-right: 10px;" }
         });
         const handleSubmit = (shouldClose) => {
           if (!this.examData.title || !this.examData.date) {
-            new import_obsidian7.Notice("Please fill in exam title and date");
+            new import_obsidian7.Notice("Please fill in exam title and date.");
             return;
           }
           if (!this.examData.time) {
@@ -97,7 +97,7 @@ var init_examModal = __esm({
           if (shouldClose) {
             this.close();
           } else {
-            new import_obsidian7.Notice("Exam added! Add another.");
+            new import_obsidian7.Notice("Exam added. Add another.");
             this.examData.title = "";
             this.examData.topics = [];
             this.onOpen();
@@ -297,7 +297,7 @@ var TaskManager = class {
       freeTask: freeTaskBefore ? { ...freeTaskBefore } : null
     });
     const completion = {
-      id: Date.now().toString(36) + Math.random().toString(36).substr(2),
+      id: Date.now().toString(36) + Math.random().toString(36).substring(2),
       taskId,
       goalId,
       completedAt: Date.now(),
@@ -464,11 +464,11 @@ var TaskModal = class extends import_obsidian4.Modal {
     new import_obsidian4.Setting(contentEl).setName("Reminder (minutes before)").addText((text) => text.setValue("15").onChange((value) => {
       this.result.reminderMinutes = parseInt(value, 10) || 0;
     }));
-    new import_obsidian4.Setting(contentEl).addButton((btn) => btn.setButtonText("Create & add another").onClick(() => {
+    new import_obsidian4.Setting(contentEl).addButton((btn) => btn.setButtonText("Create and add another").onClick(() => {
       this.onSubmit(this.result);
       this.result.title = "";
       this.result.description = "";
-      new import_obsidian4.Notice("Task created! Add another.");
+      new import_obsidian4.Notice("Task created. Add another.");
       this.contentEl.empty();
       this.onOpen();
     })).addButton((btn) => btn.setButtonText("Create").setCta().onClick(() => {
@@ -492,7 +492,7 @@ var TaskModal = class extends import_obsidian4.Modal {
       }
     };
     const daysDiv = contentEl.createDiv();
-    daysDiv.createEl("h3", { text: "Days of Week" });
+    daysDiv.createEl("h3", { text: "Days of week" });
     const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
     if (!this.result.daysOfWeek || this.result.daysOfWeek.length === 0) {
       this.result.daysOfWeek = [0, 1, 2, 3, 4, 5, 6];
@@ -519,14 +519,14 @@ var TaskModal = class extends import_obsidian4.Modal {
       dayContainer.createEl("label", { text: day, attr: { for: `day-${index}` } });
       dayContainer.addClass("day-checkbox-container");
     });
-    new import_obsidian4.Setting(contentEl).setName("Start Time").addText((text) => {
+    new import_obsidian4.Setting(contentEl).setName("Start time").addText((text) => {
       text.inputEl.type = "time";
       text.setPlaceholder("HH:MM").onChange((value) => {
         this.result.startTime = value;
         validateConflicts();
       });
     });
-    new import_obsidian4.Setting(contentEl).setName("End Time").addText((text) => {
+    new import_obsidian4.Setting(contentEl).setName("End time").addText((text) => {
       text.inputEl.type = "time";
       text.setPlaceholder("HH:MM").onChange((value) => {
         this.result.endTime = value;
@@ -535,7 +535,7 @@ var TaskModal = class extends import_obsidian4.Modal {
     });
   }
   createFreeTaskFields(contentEl) {
-    new import_obsidian4.Setting(contentEl).setName("Due Date").addText((text) => {
+    new import_obsidian4.Setting(contentEl).setName("Due date").addText((text) => {
       text.inputEl.type = "date";
       text.setPlaceholder("YYYY-MM-DD").onChange((value) => {
         if (value) {
@@ -547,7 +547,7 @@ var TaskModal = class extends import_obsidian4.Modal {
         }
       });
     });
-    new import_obsidian4.Setting(contentEl).setName("Due Time").addText((text) => {
+    new import_obsidian4.Setting(contentEl).setName("Due time").addText((text) => {
       text.inputEl.type = "time";
       text.setPlaceholder("HH:MM").onChange((value) => {
         this.result.dueTime = value;
@@ -600,10 +600,10 @@ var GoalDetailsModal = class extends import_obsidian5.Modal {
     streakStat.createEl("strong", { text: `${streak}d` });
     const daysSince = this.plugin.goalManager.getDaysSinceLastCompletion(this.goal.id);
     const lastActiveStat = statsList.createDiv({ cls: "mini-stat" });
-    lastActiveStat.createEl("span", { text: "Last Active" });
+    lastActiveStat.createEl("span", { text: "Last active" });
     lastActiveStat.createEl("strong", { text: daysSince === 0 ? "Today" : `${daysSince}d ago` });
     const main = layout.createDiv({ cls: "goal-dashboard-main" });
-    main.createEl("h3", { text: "Daily Schedule" });
+    main.createEl("h3", { text: "Daily schedule" });
     const taskList = main.createDiv({ cls: "goal-task-list-modern" });
     if (this.tasks.length === 0) {
       taskList.createEl("p", { text: "No recurring tasks for this goal.", cls: "empty-hint" });
@@ -725,12 +725,12 @@ var DashboardView = class extends import_obsidian8.ItemView {
   }
   renderHeader(container) {
     const headerEl = container.createEl("div", { cls: "dashboard-header" });
-    headerEl.createEl("h1", { text: "Better Task Dashboard" });
+    headerEl.createEl("h1", { text: "Better task dashboard" });
     headerEl.createEl("h3", { text: (0, import_obsidian8.moment)().format("dddd, MMMM Do YYYY") });
   }
   renderTodaysTasks(container) {
     const section = container.createEl("div", { cls: "dashboard-section" });
-    section.createEl("h2", { text: "Today's Tasks" });
+    section.createEl("h2", { text: "Today's tasks" });
     const { dailyTasks } = this.plugin.taskManager.getTasksForToday();
     if (dailyTasks.length === 0) {
       const emptyState = section.createEl("div", { cls: "empty-state-with-action" });
@@ -772,7 +772,7 @@ var DashboardView = class extends import_obsidian8.ItemView {
   }
   renderQuickTasks(container) {
     const section = container.createEl("div", { cls: "dashboard-section" });
-    section.createEl("h2", { text: "Quick Tasks" });
+    section.createEl("h2", { text: "Quick tasks" });
     const incompleteFreeTasks = this.plugin.data.freeTasks.filter((t) => !t.isCompleted);
     if (incompleteFreeTasks.length === 0) {
       const emptyState = section.createEl("div", { cls: "empty-state-with-action" });
@@ -809,7 +809,7 @@ var DashboardView = class extends import_obsidian8.ItemView {
   }
   renderGoalsOverview(container) {
     const section = container.createEl("div", { cls: "dashboard-section" });
-    section.createEl("h2", { text: "Your Goals" });
+    section.createEl("h2", { text: "Your goals" });
     if (this.plugin.data.goals.length === 0) {
       const emptyState = section.createEl("div", { cls: "empty-state-with-action" });
       emptyState.createEl("p", { text: "No goals yet. Let's get started!" });
@@ -823,7 +823,7 @@ var DashboardView = class extends import_obsidian8.ItemView {
     const grid = section.createEl("div", { cls: "goals-grid" });
     const activeGoals = this.plugin.data.goals.filter((g) => (g.status || "active") === "active");
     if (activeGoals.length === 0 && this.plugin.data.goals.length > 0) {
-      section.createEl("p", { text: "All goals are completed or archived! Great job! \u{1F389}", cls: "empty-hint" });
+      section.createEl("p", { text: "All goals are completed or archived. Great job! \u{1F389}", cls: "empty-hint" });
       return;
     }
     activeGoals.forEach((goal) => {
@@ -886,9 +886,13 @@ var DashboardView = class extends import_obsidian8.ItemView {
       (0, import_obsidian8.setIcon)(editBtn, "pencil");
       editBtn.addEventListener("click", (e) => {
         e.stopPropagation();
-        new GoalModal(this.plugin.app, async (result) => {
-          await this.plugin.goalManager.editGoal(goal.id, result);
-        }, { title: goal.title, description: goal.description }).open();
+        new GoalModal(
+          this.plugin.app,
+          (result) => {
+            void this.plugin.goalManager.editGoal(goal.id, result);
+          },
+          { title: goal.title, description: goal.description }
+        ).open();
       });
       const completeBtn = actions.createEl("button", { cls: "goal-action-btn" });
       (0, import_obsidian8.setIcon)(completeBtn, "check");
@@ -911,32 +915,32 @@ var DashboardView = class extends import_obsidian8.ItemView {
     const section = container.createEl("details", { cls: "dashboard-section analytics-section" });
     section.setAttribute("open", "");
     const summary = section.createEl("summary");
-    summary.createEl("h2", { text: "Insights & Analytics", cls: "inline-header" });
+    summary.createEl("h2", { text: "Insights and analytics", cls: "inline-header" });
     const statsGrid = section.createEl("div", { cls: "stats-grid" });
     const successCard = statsGrid.createEl("div", { cls: "stat-card" });
-    successCard.createEl("h4", { text: "Weekly Score" });
+    successCard.createEl("h4", { text: "Weekly score" });
     const successRate = this.plugin.analyticsManager.getWeeklySuccessRate();
     successCard.createEl("div", { text: `${successRate}%`, cls: "stat-value" });
     successCard.createEl("div", { text: "consistency", cls: "stat-label" });
     const streakCard = statsGrid.createEl("div", { cls: "stat-card" });
-    streakCard.createEl("h4", { text: "Best Streak" });
+    streakCard.createEl("h4", { text: "Best streak" });
     const longestStreak = this.plugin.analyticsManager.getLongestStreakEver();
     streakCard.createEl("div", { text: `${longestStreak} \u{1F525}`, cls: "stat-value" });
     streakCard.createEl("div", { text: "all-time record", cls: "stat-label" });
     const attentionCard = statsGrid.createEl("div", { cls: "stat-card focus-card" });
-    attentionCard.createEl("h4", { text: "Recent Focus" });
+    attentionCard.createEl("h4", { text: "Recent focus" });
     const activeGoal = this.plugin.analyticsManager.getMostActiveGoal();
     if (activeGoal) {
       attentionCard.createEl("div", { text: activeGoal.title, cls: "stat-value goal-name" });
       attentionCard.createEl("div", { text: "most active this week", cls: "stat-label" });
     } else {
       attentionCard.createEl("div", { text: "N/A", cls: "stat-value" });
-      attentionCard.createEl("div", { text: "Start your week!", cls: "stat-label" });
+      attentionCard.createEl("div", { text: "Start your week.", cls: "stat-label" });
     }
     const activityHistory = this.plugin.analyticsManager.getActivityHistory(7);
     const activitySection = section.createEl("div", { cls: "activity-comparison-section" });
     const activityHeader = activitySection.createDiv({ cls: "activity-header-row" });
-    activityHeader.createEl("h4", { text: "Activity Comparison" });
+    activityHeader.createEl("h4", { text: "Activity comparison" });
     const legend = activityHeader.createDiv({ cls: "chart-legend" });
     const createdLeg = legend.createDiv({ cls: "legend-item" });
     createdLeg.createDiv({ cls: "legend-color created" });
@@ -989,14 +993,14 @@ var DashboardView = class extends import_obsidian8.ItemView {
     const studentSection = container.createEl("details", { cls: "dashboard-section student-mode-section" });
     studentSection.setAttribute("open", "");
     const summary = studentSection.createEl("summary");
-    summary.createEl("h2", { text: "Student Dashboard", cls: "inline-header" });
+    summary.createEl("h2", { text: "Student dashboard", cls: "inline-header" });
     this.renderStudentContent(studentSection);
   }
   renderStudentContent(container) {
     const section = container.createEl("div", { cls: "student-subsection" });
-    section.createEl("h3", { text: "Current Semester Units" });
+    section.createEl("h3", { text: "Current semester units" });
     this.renderUnitsGrid(section);
-    section.createEl("h3", { text: "Upcoming Exams (Next 30 Days)", cls: "exams-heading" });
+    section.createEl("h3", { text: "Upcoming exams (next 30 days)", cls: "exams-heading" });
     this.renderExamsList(section);
   }
   renderUnitsGrid(container) {
@@ -1828,10 +1832,10 @@ var UnitModal = class extends import_obsidian11.Modal {
     const { contentEl } = this;
     contentEl.empty();
     contentEl.createEl("h2", { text: "Create new unit" });
-    new import_obsidian11.Setting(contentEl).setName("Unit Name").setDesc("Full name of the unit/course").addText((text) => text.setPlaceholder("e.g., Introduction to Computer Science").setValue(this.unitData.name || "").onChange((value) => {
+    new import_obsidian11.Setting(contentEl).setName("Unit name").setDesc("Full name of the unit or course").addText((text) => text.setPlaceholder("e.g., Introduction to Computer Science").setValue(this.unitData.name || "").onChange((value) => {
       this.unitData.name = value;
     }));
-    new import_obsidian11.Setting(contentEl).setName("Unit Code").setDesc("Course code or number").addText((text) => text.setPlaceholder("e.g., CS101").setValue(this.unitData.code || "").onChange((value) => {
+    new import_obsidian11.Setting(contentEl).setName("Unit code").setDesc("Course code or number").addText((text) => text.setPlaceholder("e.g., CS101").setValue(this.unitData.code || "").onChange((value) => {
       this.unitData.code = value;
     }));
     new import_obsidian11.Setting(contentEl).setName("Semester").setDesc("When this unit is taught").addText((text) => text.setPlaceholder("e.g., Fall 2026").setValue(this.unitData.semester || "").onChange((value) => {
@@ -1855,7 +1859,7 @@ var UnitModal = class extends import_obsidian11.Modal {
       this.close();
     });
     const addAnotherBtn = buttonContainer.createEl("button", {
-      text: "Create & add another"
+      text: "Create and add another"
     });
     addAnotherBtn.addEventListener("click", () => {
       if (this.validateForm()) {
@@ -1878,7 +1882,7 @@ var UnitModal = class extends import_obsidian11.Modal {
   }
   validateForm() {
     if (!this.unitData.name || !this.unitData.code) {
-      new import_obsidian11.Notice("Please fill in unit name and code");
+      new import_obsidian11.Notice("Please fill in unit name and code.");
       return false;
     }
     return true;
@@ -1905,16 +1909,16 @@ var WelcomeModal = class extends import_obsidian12.Modal {
     contentEl.createEl("h1", { text: "Welcome to Better Task! \u{1F680}" });
     const introText = contentEl.createEl("div", { cls: "welcome-content" });
     introText.createEl("p", { text: "Your new productivity companion for Obsidian." });
-    introText.createEl("h3", { text: "How it works:" });
+    introText.createEl("h3", { text: "How it works" });
     const steps = introText.createEl("ul");
-    steps.createEl("li", { text: "\u{1F3AF} Create Goals to define what you want to achieve." });
-    steps.createEl("li", { text: "\u{1F4C5} Add Daily Tasks linked to your goals." });
-    steps.createEl("li", { text: "\u{1F525} Build Streaks and track your progress." });
+    steps.createEl("li", { text: "\u{1F3AF} Create goals to define what you want to achieve." });
+    steps.createEl("li", { text: "\u{1F4C5} Add daily tasks linked to your goals." });
+    steps.createEl("li", { text: "\u{1F525} Build streaks and track your progress." });
     const note = introText.createEl("p", { cls: "student-note" });
     note.createEl("strong", { text: "\u{1F393} Student?" });
-    note.createSpan({ text: " Student Mode is enabled by default! You can manage your courses and exams right away." });
+    note.createSpan({ text: " Student mode is enabled by default. You can manage your courses and exams right away." });
     const btnContainer = contentEl.createEl("div", { cls: "welcome-actions" });
-    const btn = btnContainer.createEl("button", { cls: "mod-cta", text: "Let's Get Started" });
+    const btn = btnContainer.createEl("button", { cls: "mod-cta", text: "Let's get started" });
     btn.onclick = () => {
       this.close();
     };
@@ -1963,7 +1967,7 @@ var BetterTaskPlugin = class extends import_obsidian13.Plugin {
         void (async () => {
           this.data.settings.hasSeenWelcome = true;
           await this.savePluginData();
-          this.activateView();
+          await this.activateView();
         })();
       }).open();
     }

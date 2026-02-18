@@ -51,12 +51,12 @@ export class GoalDetailsModal extends Modal {
         streakStat.createEl('strong', { text: `${streak}d` });
         const daysSince = this.plugin.goalManager.getDaysSinceLastCompletion(this.goal.id);
         const lastActiveStat = statsList.createDiv({ cls: 'mini-stat' });
-        lastActiveStat.createEl('span', { text: 'Last Active' });
+        lastActiveStat.createEl('span', { text: 'Last active' });
         lastActiveStat.createEl('strong', { text: daysSince === 0 ? 'Today' : `${daysSince}d ago` });
 
         // Main Content: Tasks
         const main = layout.createDiv({ cls: 'goal-dashboard-main' });
-        main.createEl('h3', { text: 'Daily Schedule' });
+        main.createEl('h3', { text: 'Daily schedule' });
         const taskList = main.createDiv({ cls: 'goal-task-list-modern' });
 
         if (this.tasks.length === 0) {

@@ -79,13 +79,13 @@ export class DashboardView extends ItemView {
 
     renderHeader(container: HTMLElement) {
         const headerEl = container.createEl('div', { cls: 'dashboard-header' });
-        headerEl.createEl('h1', { text: 'Better Task Dashboard' });
+        headerEl.createEl('h1', { text: 'Better task dashboard' });
         headerEl.createEl('h3', { text: moment().format('dddd, MMMM Do YYYY') });
     }
 
     renderTodaysTasks(container: HTMLElement) {
         const section = container.createEl('div', { cls: 'dashboard-section' });
-        section.createEl('h2', { text: "Today's Tasks" });
+        section.createEl('h2', { text: "Today's tasks" });
 
         const { dailyTasks } = this.plugin.taskManager.getTasksForToday();
 
@@ -141,7 +141,7 @@ export class DashboardView extends ItemView {
 
     renderQuickTasks(container: HTMLElement) {
         const section = container.createEl('div', { cls: 'dashboard-section' });
-        section.createEl('h2', { text: 'Quick Tasks' });
+        section.createEl('h2', { text: 'Quick tasks' });
 
         const incompleteFreeTasks = this.plugin.data.freeTasks.filter(t => !t.isCompleted);
 
@@ -185,7 +185,7 @@ export class DashboardView extends ItemView {
 
     renderGoalsOverview(container: HTMLElement) {
         const section = container.createEl('div', { cls: 'dashboard-section' });
-        section.createEl('h2', { text: 'Your Goals' });
+        section.createEl('h2', { text: 'Your goals' });
 
         if (this.plugin.data.goals.length === 0) {
             const emptyState = section.createEl('div', { cls: 'empty-state-with-action' });
@@ -203,7 +203,7 @@ export class DashboardView extends ItemView {
         const activeGoals = this.plugin.data.goals.filter(g => (g.status || 'active') === 'active');
 
         if (activeGoals.length === 0 && this.plugin.data.goals.length > 0) {
-            section.createEl('p', { text: 'All goals are completed or archived! Great job! 🎉', cls: 'empty-hint' });
+            section.createEl('p', { text: 'All goals are completed or archived. Great job! 🎉', cls: 'empty-hint' });
             return;
         }
 
@@ -291,9 +291,13 @@ export class DashboardView extends ItemView {
             setIcon(editBtn, 'pencil');
             editBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
-                new GoalModal(this.plugin.app, async (result) => {
-                    await this.plugin.goalManager.editGoal(goal.id, result);
-                }, { title: goal.title, description: goal.description }).open();
+                new GoalModal(
+                    this.plugin.app,
+                    (result) => {
+                        void this.plugin.goalManager.editGoal(goal.id, result);
+                    },
+                    { title: goal.title, description: goal.description }
+                ).open();
             });
 
             const completeBtn = actions.createEl('button', { cls: 'goal-action-btn' });
@@ -319,35 +323,35 @@ export class DashboardView extends ItemView {
         const section = container.createEl('details', { cls: 'dashboard-section analytics-section' });
         section.setAttribute('open', '');
         const summary = section.createEl('summary');
-        summary.createEl('h2', { text: 'Insights & Analytics', cls: 'inline-header' });
+        summary.createEl('h2', { text: 'Insights and analytics', cls: 'inline-header' });
 
         // Primary Metrics
         const statsGrid = section.createEl('div', { cls: 'stats-grid' });
 
         // Weekly Success Rate (Consistent Days)
         const successCard = statsGrid.createEl('div', { cls: 'stat-card' });
-        successCard.createEl('h4', { text: 'Weekly Score' });
+        successCard.createEl('h4', { text: 'Weekly score' });
         const successRate = this.plugin.analyticsManager.getWeeklySuccessRate();
         successCard.createEl('div', { text: `${successRate}%`, cls: 'stat-value' });
         successCard.createEl('div', { text: 'consistency', cls: 'stat-label' });
 
         // Longest Streak
         const streakCard = statsGrid.createEl('div', { cls: 'stat-card' });
-        streakCard.createEl('h4', { text: 'Best Streak' });
+        streakCard.createEl('h4', { text: 'Best streak' });
         const longestStreak = this.plugin.analyticsManager.getLongestStreakEver();
         streakCard.createEl('div', { text: `${longestStreak} 🔥`, cls: 'stat-value' });
         streakCard.createEl('div', { text: 'all-time record', cls: 'stat-label' });
 
         // Active Focus (Most active goal)
         const attentionCard = statsGrid.createEl('div', { cls: 'stat-card focus-card' });
-        attentionCard.createEl('h4', { text: 'Recent Focus' });
+        attentionCard.createEl('h4', { text: 'Recent focus' });
         const activeGoal = this.plugin.analyticsManager.getMostActiveGoal();
         if (activeGoal) {
             attentionCard.createEl('div', { text: activeGoal.title, cls: 'stat-value goal-name' });
             attentionCard.createEl('div', { text: 'most active this week', cls: 'stat-label' });
         } else {
             attentionCard.createEl('div', { text: 'N/A', cls: 'stat-value' });
-            attentionCard.createEl('div', { text: 'Start your week!', cls: 'stat-label' });
+            attentionCard.createEl('div', { text: 'Start your week.', cls: 'stat-label' });
         }
 
         // Activity Comparison Visual
@@ -355,7 +359,7 @@ export class DashboardView extends ItemView {
         const activitySection = section.createEl('div', { cls: 'activity-comparison-section' });
 
         const activityHeader = activitySection.createDiv({ cls: 'activity-header-row' });
-        activityHeader.createEl('h4', { text: 'Activity Comparison' });
+        activityHeader.createEl('h4', { text: 'Activity comparison' });
 
         // Legend
         const legend = activityHeader.createDiv({ cls: 'chart-legend' });
@@ -430,16 +434,16 @@ export class DashboardView extends ItemView {
         const studentSection = container.createEl('details', { cls: 'dashboard-section student-mode-section' });
         studentSection.setAttribute('open', '');
         const summary = studentSection.createEl('summary');
-        summary.createEl('h2', { text: 'Student Dashboard', cls: 'inline-header' });
+        summary.createEl('h2', { text: 'Student dashboard', cls: 'inline-header' });
 
         this.renderStudentContent(studentSection);
     }
 
     renderStudentContent(container: HTMLElement) {
         const section = container.createEl('div', { cls: 'student-subsection' });
-        section.createEl('h3', { text: 'Current Semester Units' });
+        section.createEl('h3', { text: 'Current semester units' });
         this.renderUnitsGrid(section);
-        section.createEl('h3', { text: 'Upcoming Exams (Next 30 Days)', cls: 'exams-heading' });
+        section.createEl('h3', { text: 'Upcoming exams (next 30 days)', cls: 'exams-heading' });
         this.renderExamsList(section);
     }
 

@@ -20,7 +20,7 @@ export class ExamModal extends Modal {
 
         // Exam Title
         new Setting(contentEl)
-            .setName('Exam Title')
+            .setName('Exam title')
             .setDesc('Name or type of the exam')
             .addText(text => text
                 .setPlaceholder('e.g., Midterm Exam, Final Exam')
@@ -96,13 +96,13 @@ export class ExamModal extends Modal {
         });
 
         const addAnotherBtn = buttonContainer.createEl('button', {
-            text: 'Add & another',
+            text: 'Add and add another',
             attr: { style: 'margin-right: 10px;' }
         });
 
         const handleSubmit = (shouldClose: boolean) => {
             if (!this.examData.title || !this.examData.date) {
-                new Notice('Please fill in exam title and date');
+                new Notice('Please fill in exam title and date.');
                 return;
             }
             if (!this.examData.time) {
@@ -116,7 +116,7 @@ export class ExamModal extends Modal {
             if (shouldClose) {
                 this.close();
             } else {
-                new Notice('Exam added! Add another.');
+                new Notice('Exam added. Add another.');
                 // Reset fields
                 this.examData.title = '';
                 this.examData.topics = [];

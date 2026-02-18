@@ -91,14 +91,14 @@ export class TaskModal extends Modal {
 
         new Setting(contentEl)
             .addButton(btn => btn
-                .setButtonText('Create & add another')
+                .setButtonText('Create and add another')
                 .onClick(() => {
                     this.onSubmit(this.result);
                     // Reset fields for next task
                     this.result.title = '';
                     this.result.description = '';
                     // Keep Goal and Date/Time settings as they are often sequential
-                    new Notice('Task created! Add another.');
+                    new Notice('Task created. Add another.');
                     // Refresh view to clear input fields visually
                     // Since we bound inputs to this.result members but inputs don't auto-update from model in this simple implementation,
                     // we need to re-render or explicitly clear the inputs.
@@ -154,7 +154,7 @@ export class TaskModal extends Modal {
         };
 
         const daysDiv = contentEl.createDiv();
-        daysDiv.createEl('h3', { text: 'Days of Week' });
+        daysDiv.createEl('h3', { text: 'Days of week' });
 
         const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
         // Initialize with all days if empty
@@ -186,7 +186,7 @@ export class TaskModal extends Modal {
         });
 
         new Setting(contentEl)
-            .setName('Start Time')
+            .setName('Start time')
             .addText(text => {
                 text.inputEl.type = 'time';
                 text.setPlaceholder('HH:MM')
@@ -197,7 +197,7 @@ export class TaskModal extends Modal {
             });
 
         new Setting(contentEl)
-            .setName('End Time')
+            .setName('End time')
             .addText(text => {
                 text.inputEl.type = 'time';
                 text.setPlaceholder('HH:MM')
@@ -210,7 +210,7 @@ export class TaskModal extends Modal {
 
     createFreeTaskFields(contentEl: HTMLElement) {
         new Setting(contentEl)
-            .setName('Due Date')
+            .setName('Due date')
             .addText(text => {
                 text.inputEl.type = 'date';
                 text.setPlaceholder('YYYY-MM-DD')
@@ -227,7 +227,7 @@ export class TaskModal extends Modal {
             });
 
         new Setting(contentEl)
-            .setName('Due Time')
+            .setName('Due time')
             .addText(text => {
                 text.inputEl.type = 'time';
                 text.setPlaceholder('HH:MM')
