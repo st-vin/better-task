@@ -23,7 +23,7 @@ export class ExamModal extends Modal {
             .setName('Exam title')
             .setDesc('Name or type of the exam')
             .addText(text => text
-                .setPlaceholder('e.g., Midterm Exam, Final Exam')
+                .setPlaceholder('e.g., Midterm exam, final exam')
                 .onChange(value => {
                     this.examData.title = value;
                 }));
@@ -34,7 +34,7 @@ export class ExamModal extends Modal {
             .setDesc('Exam date')
             .addText(text => {
                 text.inputEl.type = 'date';
-                text.setPlaceholder('YYYY-MM-DD')
+                text.setPlaceholder('yyyy-mm-dd')
                     .onChange(value => {
                         // Handle date input value (YYYY-MM-DD)
                         if (value) {
@@ -52,7 +52,7 @@ export class ExamModal extends Modal {
             .setDesc('Exam time (24-hour format)')
             .addText(text => {
                 text.inputEl.type = 'time';
-                text.setPlaceholder('HH:MM')
+                text.setPlaceholder('hh:mm')
                     .setValue('09:00')
                     .onChange(value => {
                         this.examData.time = value;
@@ -64,7 +64,7 @@ export class ExamModal extends Modal {
             .setName('Location')
             .setDesc('Exam room or building (optional)')
             .addText(text => text
-                .setPlaceholder('e.g., Room 301, Building A')
+                .setPlaceholder('e.g., Room 301, building A')
                 .onChange(value => {
                     this.examData.location = value || undefined;
                 }));
@@ -75,7 +75,7 @@ export class ExamModal extends Modal {
             .setDesc('Comma-separated list of exam topics')
             .addTextArea(textArea => {
                 textArea
-                    .setPlaceholder('e.g., Data Structures, Algorithms, Complexity Analysis')
+                    .setPlaceholder('e.g., Data structures, algorithms, complexity analysis')
                     .onChange(value => {
                         // Split by comma and trim whitespace
                         this.examData.topics = value

@@ -74,7 +74,7 @@ export default class BetterTaskPlugin extends Plugin {
         );
 
         // This creates an icon in the left ribbon.
-        this.addRibbonIcon('check-circle', 'Better Task', () => {
+        this.addRibbonIcon('check-circle', 'Better task', () => {
             void this.activateView();
         });
 
@@ -122,7 +122,7 @@ export default class BetterTaskPlugin extends Plugin {
 
         this.addCommand({
             id: 'create-free-task',
-            name: 'Create Quick Task',
+            name: 'Create quick task',
             callback: () => {
                 new TaskModal(this, 'free', [], (result) => {
                     void this.taskManager.createFreeTask(result);
@@ -136,7 +136,7 @@ export default class BetterTaskPlugin extends Plugin {
             name: 'Create unit/course',
             callback: () => {
                 if (!this.data.settings.studentMode) {
-                    new Notice('Please enable Student Mode in settings first!');
+                    new Notice('Please enable student mode in settings first!');
                     return;
                 }
                 new UnitModal(this.app, (unitData, shouldClose) => {
@@ -154,7 +154,7 @@ export default class BetterTaskPlugin extends Plugin {
             name: 'Add exam',
             callback: () => {
                 if (!this.data.settings.studentMode) {
-                    new Notice('Please enable Student Mode in settings first!');
+                    new Notice('Please enable student mode in settings first!');
                     return;
                 }
                 if (this.data.studentUnits.length === 0) {
@@ -460,7 +460,7 @@ class BetterTaskSettingTab extends PluginSettingTab {
                 }));
 
         new Setting(containerEl)
-            .setName('Student Mode')
+            .setName('Student mode')
             .setDesc('Enable semester tracking and exam scheduling')
             .addToggle(toggle => toggle
                 .setValue(this.plugin.data.settings.studentMode)

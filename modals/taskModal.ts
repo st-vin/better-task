@@ -189,7 +189,7 @@ export class TaskModal extends Modal {
             .setName('Start time')
             .addText(text => {
                 text.inputEl.type = 'time';
-                text.setPlaceholder('HH:MM')
+                text.setPlaceholder('hh:mm')
                     .onChange(value => {
                         this.result.startTime = value;
                         validateConflicts();
@@ -200,7 +200,7 @@ export class TaskModal extends Modal {
             .setName('End time')
             .addText(text => {
                 text.inputEl.type = 'time';
-                text.setPlaceholder('HH:MM')
+                text.setPlaceholder('hh:mm')
                     .onChange(value => {
                         this.result.endTime = value;
                         validateConflicts();
@@ -213,7 +213,7 @@ export class TaskModal extends Modal {
             .setName('Due date')
             .addText(text => {
                 text.inputEl.type = 'date';
-                text.setPlaceholder('YYYY-MM-DD')
+                text.setPlaceholder('yyyy-mm-dd')
                     .onChange(value => {
                         // value from type='date' is YYYY-MM-DD; parse explicitly to avoid UTC off-by-one
                         if (value) {
@@ -230,7 +230,7 @@ export class TaskModal extends Modal {
             .setName('Due time')
             .addText(text => {
                 text.inputEl.type = 'time';
-                text.setPlaceholder('HH:MM')
+                text.setPlaceholder('hh:mm')
                     .onChange(value => {
                         this.result.dueTime = value;
                     });

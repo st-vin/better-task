@@ -25,7 +25,7 @@ export class UnitModal extends Modal {
             .setName('Unit name')
             .setDesc('Full name of the unit or course')
             .addText(text => text
-                .setPlaceholder('e.g., Introduction to Computer Science')
+                .setPlaceholder('e.g., Introduction to computer science')
                 .setValue(this.unitData.name || '')
                 .onChange(value => {
                     this.unitData.name = value;

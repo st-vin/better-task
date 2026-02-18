@@ -12,7 +12,7 @@ export class WelcomeModal extends Modal {
         const { contentEl } = this;
         contentEl.addClass('better-task-welcome-modal');
 
-        contentEl.createEl('h1', { text: 'Welcome to Better Task! 🚀' });
+        contentEl.createEl('h1', { text: 'Welcome to Better task! 🚀' });
 
         const introText = contentEl.createEl('div', { cls: 'welcome-content' });
         introText.createEl('p', { text: 'Your new productivity companion for Obsidian.' });

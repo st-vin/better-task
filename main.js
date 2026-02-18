@@ -44,12 +44,12 @@ var init_examModal = __esm({
         const { contentEl } = this;
         contentEl.empty();
         contentEl.createEl("h2", { text: `Add exam for ${this.unit.name}` });
-        new import_obsidian7.Setting(contentEl).setName("Exam title").setDesc("Name or type of the exam").addText((text) => text.setPlaceholder("e.g., Midterm Exam, Final Exam").onChange((value) => {
+        new import_obsidian7.Setting(contentEl).setName("Exam title").setDesc("Name or type of the exam").addText((text) => text.setPlaceholder("e.g., Midterm exam, final exam").onChange((value) => {
           this.examData.title = value;
         }));
         new import_obsidian7.Setting(contentEl).setName("Date").setDesc("Exam date").addText((text) => {
           text.inputEl.type = "date";
-          text.setPlaceholder("YYYY-MM-DD").onChange((value) => {
+          text.setPlaceholder("yyyy-mm-dd").onChange((value) => {
             if (value) {
               const parts = value.split("-");
               const dateObj = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
@@ -59,15 +59,15 @@ var init_examModal = __esm({
         });
         new import_obsidian7.Setting(contentEl).setName("Time").setDesc("Exam time (24-hour format)").addText((text) => {
           text.inputEl.type = "time";
-          text.setPlaceholder("HH:MM").setValue("09:00").onChange((value) => {
+          text.setPlaceholder("hh:mm").setValue("09:00").onChange((value) => {
             this.examData.time = value;
           });
         });
-        new import_obsidian7.Setting(contentEl).setName("Location").setDesc("Exam room or building (optional)").addText((text) => text.setPlaceholder("e.g., Room 301, Building A").onChange((value) => {
+        new import_obsidian7.Setting(contentEl).setName("Location").setDesc("Exam room or building (optional)").addText((text) => text.setPlaceholder("e.g., Room 301, building A").onChange((value) => {
           this.examData.location = value || void 0;
         }));
         new import_obsidian7.Setting(contentEl).setName("Topics").setDesc("Comma-separated list of exam topics").addTextArea((textArea) => {
-          textArea.setPlaceholder("e.g., Data Structures, Algorithms, Complexity Analysis").onChange((value) => {
+          textArea.setPlaceholder("e.g., Data structures, algorithms, complexity analysis").onChange((value) => {
             this.examData.topics = value.split(",").map((t) => t.trim()).filter((t) => t.length > 0);
           });
           textArea.inputEl.rows = 4;
@@ -521,14 +521,14 @@ var TaskModal = class extends import_obsidian4.Modal {
     });
     new import_obsidian4.Setting(contentEl).setName("Start time").addText((text) => {
       text.inputEl.type = "time";
-      text.setPlaceholder("HH:MM").onChange((value) => {
+      text.setPlaceholder("hh:mm").onChange((value) => {
         this.result.startTime = value;
         validateConflicts();
       });
     });
     new import_obsidian4.Setting(contentEl).setName("End time").addText((text) => {
       text.inputEl.type = "time";
-      text.setPlaceholder("HH:MM").onChange((value) => {
+      text.setPlaceholder("hh:mm").onChange((value) => {
         this.result.endTime = value;
         validateConflicts();
       });
@@ -537,7 +537,7 @@ var TaskModal = class extends import_obsidian4.Modal {
   createFreeTaskFields(contentEl) {
     new import_obsidian4.Setting(contentEl).setName("Due date").addText((text) => {
       text.inputEl.type = "date";
-      text.setPlaceholder("YYYY-MM-DD").onChange((value) => {
+      text.setPlaceholder("yyyy-mm-dd").onChange((value) => {
         if (value) {
           const parts = value.split("-");
           const dateObj = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
@@ -549,7 +549,7 @@ var TaskModal = class extends import_obsidian4.Modal {
     });
     new import_obsidian4.Setting(contentEl).setName("Due time").addText((text) => {
       text.inputEl.type = "time";
-      text.setPlaceholder("HH:MM").onChange((value) => {
+      text.setPlaceholder("hh:mm").onChange((value) => {
         this.result.dueTime = value;
       });
     });
@@ -684,7 +684,7 @@ var DashboardView = class extends import_obsidian8.ItemView {
     return DASHBOARD_VIEW_TYPE;
   }
   getDisplayText() {
-    return "Better Task";
+    return "Better task";
   }
   getIcon() {
     return "check-circle";
@@ -711,7 +711,7 @@ var DashboardView = class extends import_obsidian8.ItemView {
       } catch (error) {
         console.error("Error rendering student mode:", error);
         const errorSection = wrapper.createEl("div", { cls: "dashboard-section" });
-        errorSection.createEl("h2", { text: "\u{1F393} Student Dashboard" });
+        errorSection.createEl("h2", { text: "\u{1F393} Student dashboard" });
         errorSection.createEl("p", {
           text: "Error loading student mode. Please check console for details.",
           cls: "error-message"
@@ -921,21 +921,21 @@ var DashboardView = class extends import_obsidian8.ItemView {
     successCard.createEl("h4", { text: "Weekly score" });
     const successRate = this.plugin.analyticsManager.getWeeklySuccessRate();
     successCard.createEl("div", { text: `${successRate}%`, cls: "stat-value" });
-    successCard.createEl("div", { text: "consistency", cls: "stat-label" });
+    successCard.createEl("div", { text: "Consistency", cls: "stat-label" });
     const streakCard = statsGrid.createEl("div", { cls: "stat-card" });
     streakCard.createEl("h4", { text: "Best streak" });
     const longestStreak = this.plugin.analyticsManager.getLongestStreakEver();
     streakCard.createEl("div", { text: `${longestStreak} \u{1F525}`, cls: "stat-value" });
-    streakCard.createEl("div", { text: "all-time record", cls: "stat-label" });
+    streakCard.createEl("div", { text: "All-time record", cls: "stat-label" });
     const attentionCard = statsGrid.createEl("div", { cls: "stat-card focus-card" });
     attentionCard.createEl("h4", { text: "Recent focus" });
     const activeGoal = this.plugin.analyticsManager.getMostActiveGoal();
     if (activeGoal) {
       attentionCard.createEl("div", { text: activeGoal.title, cls: "stat-value goal-name" });
-      attentionCard.createEl("div", { text: "most active this week", cls: "stat-label" });
+      attentionCard.createEl("div", { text: "Most active this week", cls: "stat-label" });
     } else {
       attentionCard.createEl("div", { text: "N/A", cls: "stat-value" });
-      attentionCard.createEl("div", { text: "Start your week.", cls: "stat-label" });
+      attentionCard.createEl("div", { text: "Start your week", cls: "stat-label" });
     }
     const activityHistory = this.plugin.analyticsManager.getActivityHistory(7);
     const activitySection = section.createEl("div", { cls: "activity-comparison-section" });
@@ -1832,7 +1832,7 @@ var UnitModal = class extends import_obsidian11.Modal {
     const { contentEl } = this;
     contentEl.empty();
     contentEl.createEl("h2", { text: "Create new unit" });
-    new import_obsidian11.Setting(contentEl).setName("Unit name").setDesc("Full name of the unit or course").addText((text) => text.setPlaceholder("e.g., Introduction to Computer Science").setValue(this.unitData.name || "").onChange((value) => {
+    new import_obsidian11.Setting(contentEl).setName("Unit name").setDesc("Full name of the unit or course").addText((text) => text.setPlaceholder("e.g., Introduction to computer science").setValue(this.unitData.name || "").onChange((value) => {
       this.unitData.name = value;
     }));
     new import_obsidian11.Setting(contentEl).setName("Unit code").setDesc("Course code or number").addText((text) => text.setPlaceholder("e.g., CS101").setValue(this.unitData.code || "").onChange((value) => {
@@ -1906,7 +1906,7 @@ var WelcomeModal = class extends import_obsidian12.Modal {
   onOpen() {
     const { contentEl } = this;
     contentEl.addClass("better-task-welcome-modal");
-    contentEl.createEl("h1", { text: "Welcome to Better Task! \u{1F680}" });
+    contentEl.createEl("h1", { text: "Welcome to Better task! \u{1F680}" });
     const introText = contentEl.createEl("div", { cls: "welcome-content" });
     introText.createEl("p", { text: "Your new productivity companion for Obsidian." });
     introText.createEl("h3", { text: "How it works" });
@@ -1975,7 +1975,7 @@ var BetterTaskPlugin = class extends import_obsidian13.Plugin {
       DASHBOARD_VIEW_TYPE,
       (leaf) => new DashboardView(leaf, this)
     );
-    this.addRibbonIcon("check-circle", "Better Task", () => {
+    this.addRibbonIcon("check-circle", "Better task", () => {
       void this.activateView();
     });
     this.addSettingTab(new BetterTaskSettingTab(this.app, this));
@@ -2014,7 +2014,7 @@ var BetterTaskPlugin = class extends import_obsidian13.Plugin {
     });
     this.addCommand({
       id: "create-free-task",
-      name: "Create Quick Task",
+      name: "Create quick task",
       callback: () => {
         new TaskModal(this, "free", [], (result) => {
           void this.taskManager.createFreeTask(result);
@@ -2026,7 +2026,7 @@ var BetterTaskPlugin = class extends import_obsidian13.Plugin {
       name: "Create unit/course",
       callback: () => {
         if (!this.data.settings.studentMode) {
-          new import_obsidian13.Notice("Please enable Student Mode in settings first!");
+          new import_obsidian13.Notice("Please enable student mode in settings first!");
           return;
         }
         new UnitModal(this.app, (unitData, shouldClose) => {
@@ -2043,7 +2043,7 @@ var BetterTaskPlugin = class extends import_obsidian13.Plugin {
       name: "Add exam",
       callback: () => {
         if (!this.data.settings.studentMode) {
-          new import_obsidian13.Notice("Please enable Student Mode in settings first!");
+          new import_obsidian13.Notice("Please enable student mode in settings first!");
           return;
         }
         if (this.data.studentUnits.length === 0) {
@@ -2279,7 +2279,7 @@ var BetterTaskSettingTab = class extends import_obsidian13.PluginSettingTab {
       this.plugin.data.settings.streakWarningDays = value;
       await this.plugin.savePluginData();
     }));
-    new import_obsidian13.Setting(containerEl).setName("Student Mode").setDesc("Enable semester tracking and exam scheduling").addToggle((toggle) => toggle.setValue(this.plugin.data.settings.studentMode).onChange(async (value) => {
+    new import_obsidian13.Setting(containerEl).setName("Student mode").setDesc("Enable semester tracking and exam scheduling").addToggle((toggle) => toggle.setValue(this.plugin.data.settings.studentMode).onChange(async (value) => {
       this.plugin.data.settings.studentMode = value;
       await this.plugin.savePluginData();
       this.plugin.app.workspace.trigger("better-task:data-change");

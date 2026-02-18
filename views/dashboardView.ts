@@ -24,7 +24,7 @@ export class DashboardView extends ItemView {
     }
 
     getDisplayText(): string {
-        return 'Better Task';
+        return 'Better task';
     }
 
     getIcon(): string {
@@ -63,7 +63,7 @@ export class DashboardView extends ItemView {
             } catch (error) {
                 console.error('Error rendering student mode:', error);
                 const errorSection = wrapper.createEl('div', { cls: 'dashboard-section' });
-                errorSection.createEl('h2', { text: '🎓 Student Dashboard' });
+                errorSection.createEl('h2', { text: '🎓 Student dashboard' });
                 errorSection.createEl('p', {
                     text: 'Error loading student mode. Please check console for details.',
                     cls: 'error-message'
@@ -333,14 +333,14 @@ export class DashboardView extends ItemView {
         successCard.createEl('h4', { text: 'Weekly score' });
         const successRate = this.plugin.analyticsManager.getWeeklySuccessRate();
         successCard.createEl('div', { text: `${successRate}%`, cls: 'stat-value' });
-        successCard.createEl('div', { text: 'consistency', cls: 'stat-label' });
+        successCard.createEl('div', { text: 'Consistency', cls: 'stat-label' });
 
         // Longest Streak
         const streakCard = statsGrid.createEl('div', { cls: 'stat-card' });
         streakCard.createEl('h4', { text: 'Best streak' });
         const longestStreak = this.plugin.analyticsManager.getLongestStreakEver();
         streakCard.createEl('div', { text: `${longestStreak} 🔥`, cls: 'stat-value' });
-        streakCard.createEl('div', { text: 'all-time record', cls: 'stat-label' });
+        streakCard.createEl('div', { text: 'All-time record', cls: 'stat-label' });
 
         // Active Focus (Most active goal)
         const attentionCard = statsGrid.createEl('div', { cls: 'stat-card focus-card' });
@@ -348,10 +348,10 @@ export class DashboardView extends ItemView {
         const activeGoal = this.plugin.analyticsManager.getMostActiveGoal();
         if (activeGoal) {
             attentionCard.createEl('div', { text: activeGoal.title, cls: 'stat-value goal-name' });
-            attentionCard.createEl('div', { text: 'most active this week', cls: 'stat-label' });
+            attentionCard.createEl('div', { text: 'Most active this week', cls: 'stat-label' });
         } else {
             attentionCard.createEl('div', { text: 'N/A', cls: 'stat-value' });
-            attentionCard.createEl('div', { text: 'Start your week.', cls: 'stat-label' });
+            attentionCard.createEl('div', { text: 'Start your week', cls: 'stat-label' });
         }
 
         // Activity Comparison Visual
