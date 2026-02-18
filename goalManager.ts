@@ -10,7 +10,7 @@ export class GoalManager {
     }
 
     async createGoal(title: string, description: string): Promise<Goal> {
-        const id = Date.now().toString(36) + Math.random().toString(36).substr(2);
+        const id = Date.now().toString(36) + Math.random().toString(36).substring(2);
         const newGoal: Goal = {
             id,
             title,

@@ -38,7 +38,7 @@ export class TaskModal extends Modal {
     onOpen() {
         const { contentEl } = this;
 
-        contentEl.createEl('h1', { text: `Create ${this.type === 'daily' ? 'Daily' : 'Quick'} Task` });
+        contentEl.createEl('h1', { text: `Create ${this.type === 'daily' ? 'daily' : 'quick'} task` });
 
         if (this.type === 'daily') {
             if (this.goals.length > 0) {
@@ -91,7 +91,7 @@ export class TaskModal extends Modal {
 
         new Setting(contentEl)
             .addButton(btn => btn
-                .setButtonText('Create & Add Another')
+                .setButtonText('Create & add another')
                 .onClick(() => {
                     this.onSubmit(this.result);
                     // Reset fields for next task
@@ -118,14 +118,7 @@ export class TaskModal extends Modal {
 
     createDailyTaskFields(contentEl: HTMLElement) {
         // Warning Container
-        const warningEl = contentEl.createDiv({ cls: 'task-conflict-warning' });
-        warningEl.style.display = 'none';
-        warningEl.style.color = 'var(--text-error)';
-        warningEl.style.marginBottom = '15px';
-        warningEl.style.padding = '10px';
-        warningEl.style.backgroundColor = 'rgba(233, 62, 62, 0.1)';
-        warningEl.style.borderRadius = '5px';
-        warningEl.style.fontSize = '0.9em';
+        const warningEl = contentEl.createDiv({ cls: 'task-conflict-warning hidden' });
 
         const validateConflicts = () => {
             // We need to access the plugin instance to call taskManager
@@ -151,11 +144,11 @@ export class TaskModal extends Modal {
             if (plugin && plugin.taskManager) {
                 const conflicts = plugin.taskManager.checkTaskConflicts(this.result);
                 if (conflicts.length > 0) {
-                    warningEl.style.display = 'block';
+                    warningEl.removeClass('hidden');
                     const conflictTitles = conflicts.map((t: DailyTask) => t.title).join(', ');
                     warningEl.setText(`⚠️ Conflict with: ${conflictTitles}`);
                 } else {
-                    warningEl.style.display = 'none';
+                    warningEl.addClass('hidden');
                 }
             }
         };
@@ -189,8 +182,7 @@ export class TaskModal extends Modal {
             };
 
             dayContainer.createEl('label', { text: day, attr: { for: `day-${index}` } });
-            dayContainer.style.display = 'inline-block';
-            dayContainer.style.marginRight = '10px';
+            dayContainer.addClass('day-checkbox-container');
         });
 
         new Setting(contentEl)

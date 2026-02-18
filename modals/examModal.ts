@@ -16,7 +16,7 @@ export class ExamModal extends Modal {
         const { contentEl } = this;
         contentEl.empty();
 
-        contentEl.createEl('h2', { text: `Add Exam for ${this.unit.name}` });
+        contentEl.createEl('h2', { text: `Add exam for ${this.unit.name}` });
 
         // Exam Title
         new Setting(contentEl)
@@ -84,19 +84,19 @@ export class ExamModal extends Modal {
                             .filter(t => t.length > 0);
                     });
                 textArea.inputEl.rows = 4;
-                textArea.inputEl.style.width = '100%';
+                textArea.inputEl.addClass('textarea-full-width');
             });
 
         // Buttons
         const buttonContainer = contentEl.createDiv({ cls: 'modal-button-container' });
 
         const submitBtn = buttonContainer.createEl('button', {
-            text: 'Add Exam',
+            text: 'Add exam',
             cls: 'mod-cta'
         });
 
         const addAnotherBtn = buttonContainer.createEl('button', {
-            text: 'Add & Another',
+            text: 'Add & another',
             attr: { style: 'margin-right: 10px;' }
         });
 

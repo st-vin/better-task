@@ -18,7 +18,7 @@ export class UnitModal extends Modal {
         const { contentEl } = this;
         contentEl.empty();
 
-        contentEl.createEl('h2', { text: 'Create New Unit' });
+        contentEl.createEl('h2', { text: 'Create new unit' });
 
         // Unit Name
         new Setting(contentEl)
@@ -87,7 +87,7 @@ export class UnitModal extends Modal {
         });
 
         const addAnotherBtn = buttonContainer.createEl('button', {
-            text: 'Create & Add Another'
+            text: 'Create & add another'
         });
         addAnotherBtn.addEventListener('click', () => {
             if (this.validateForm()) {
@@ -103,7 +103,7 @@ export class UnitModal extends Modal {
         });
 
         const submitBtn = buttonContainer.createEl('button', {
-            text: 'Create Unit',
+            text: 'Create unit',
             cls: 'mod-cta'
         });
         submitBtn.addEventListener('click', () => {

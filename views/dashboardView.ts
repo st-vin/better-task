@@ -4,6 +4,7 @@ import BetterTaskPlugin from '../main';
 import { AppWithCommands } from '../types';
 import { GoalModal } from '../modals/goalModal';
 import { GoalDetailsModal } from '../modals/goalDetailsModal';
+import { ConfirmModal } from '../modals/confirmModal';
 
 export const DASHBOARD_VIEW_TYPE = 'better-task-dashboard';
 
@@ -30,13 +31,13 @@ export class DashboardView extends ItemView {
         return 'check-circle';
     }
 
-    async onOpen() {
+    onOpen(): Promise<void> {
         this.render();
-        // Refresh view when data changes
         // Refresh view when data changes
         this.registerEvent((this.plugin.app.workspace as { on(name: string, callback: () => void): EventRef }).on('better-task:data-change', () => {
             this.render();
         }));
+        return Promise.resolve();
     }
 
     async onClose() {
@@ -98,7 +99,7 @@ export class DashboardView extends ItemView {
             const emptyState = section.createEl('div', { cls: 'empty-state-with-action' });
             emptyState.createEl('p', { text: '📅 No daily tasks scheduled for today.' });
             emptyState.createEl('p', { text: 'Daily tasks are recurring activities linked to your goals.', cls: 'empty-hint' });
-            const btn = emptyState.createEl('button', { text: '+ Create Daily Task', cls: 'empty-action-btn' });
+            const btn = emptyState.createEl('button', { text: '+ Create daily task', cls: 'empty-action-btn' });
             btn.addEventListener('click', () => {
                 (this.plugin.app as unknown as AppWithCommands).commands.executeCommandById('better-task:create-daily-task');
             });
@@ -115,14 +116,16 @@ export class DashboardView extends ItemView {
 
             const checkbox = taskEl.createEl('input', { type: 'checkbox' });
             checkbox.checked = isCompleted;
-            checkbox.addEventListener('change', async () => {
-                if (checkbox.checked) {
-                    await this.plugin.taskManager.completeTask(task.id, task.goalId);
-                    this.render();
-                } else {
-                    await this.plugin.taskManager.uncompleteTask(task.id);
-                    this.render();
-                }
+            checkbox.addEventListener('change', () => {
+                void (async () => {
+                    if (checkbox.checked) {
+                        await this.plugin.taskManager.completeTask(task.id, task.goalId);
+                        this.render();
+                    } else {
+                        await this.plugin.taskManager.uncompleteTask(task.id);
+                        this.render();
+                    }
+                })();
             });
 
             const content = taskEl.createEl('div', { cls: 'task-content' });
@@ -146,7 +149,7 @@ export class DashboardView extends ItemView {
             const emptyState = section.createEl('div', { cls: 'empty-state-with-action' });
             emptyState.createEl('p', { text: '✅ No pending quick tasks.' });
             emptyState.createEl('p', { text: 'Quick tasks are one-off to-dos you need to complete.', cls: 'empty-hint' });
-            const btn = emptyState.createEl('button', { text: '+ Create Quick Task', cls: 'empty-action-btn' });
+            const btn = emptyState.createEl('button', { text: '+ Create quick task', cls: 'empty-action-btn' });
             btn.addEventListener('click', () => {
                 (this.plugin.app as unknown as AppWithCommands).commands.executeCommandById('better-task:create-free-task');
             });
@@ -160,14 +163,16 @@ export class DashboardView extends ItemView {
 
             const checkbox = taskEl.createEl('input', { type: 'checkbox' });
             checkbox.checked = false;
-            checkbox.addEventListener('change', async () => {
-                if (checkbox.checked) {
-                    await this.plugin.taskManager.completeTask(task.id);
-                    this.render();
-                } else {
-                    await this.plugin.taskManager.uncompleteTask(task.id);
-                    this.render();
-                }
+            checkbox.addEventListener('change', () => {
+                void (async () => {
+                    if (checkbox.checked) {
+                        await this.plugin.taskManager.completeTask(task.id);
+                        this.render();
+                    } else {
+                        await this.plugin.taskManager.uncompleteTask(task.id);
+                        this.render();
+                    }
+                })();
             });
 
             const content = taskEl.createEl('div', { cls: 'task-content' });
@@ -186,7 +191,7 @@ export class DashboardView extends ItemView {
             const emptyState = section.createEl('div', { cls: 'empty-state-with-action' });
             emptyState.createEl('p', { text: 'No goals yet. Let\'s get started!' });
             emptyState.createEl('p', { text: 'Goals are long-term habits or resolutions you want to track.', cls: 'empty-hint' });
-            const btn = emptyState.createEl('button', { text: '+ Create Your First Goal', cls: 'empty-action-btn primary' });
+            const btn = emptyState.createEl('button', { text: '+ Create your first goal', cls: 'empty-action-btn primary' });
             btn.addEventListener('click', () => {
                 (this.plugin.app as unknown as AppWithCommands).commands.executeCommandById('better-task:create-goal');
             });
@@ -219,40 +224,40 @@ export class DashboardView extends ItemView {
                 const menu = new Menu();
 
                 menu.addItem((item) => {
-                    item.setTitle('Mark as Complete')
+                    item.setTitle('Mark as complete')
                         .setIcon('check')
-                        .onClick(async () => {
-                            await this.plugin.goalManager.markGoalAsCompleted(goal.id);
+                        .onClick(() => {
+                            void this.plugin.goalManager.markGoalAsCompleted(goal.id);
                         });
                 });
 
                 menu.addItem((item) => {
                     item.setTitle('Archive')
                         .setIcon('archive')
-                        .onClick(async () => {
-                            await this.plugin.goalManager.archiveGoal(goal.id);
+                        .onClick(() => {
+                            void this.plugin.goalManager.archiveGoal(goal.id);
                         });
                 });
 
                 menu.addSeparator();
 
                 menu.addItem((item) => {
-                    item.setTitle('Edit Goal')
+                    item.setTitle('Edit goal')
                         .setIcon('pencil')
                         .onClick(() => {
-                            new GoalModal(this.plugin.app, async (result) => {
-                                await this.plugin.goalManager.editGoal(goal.id, result);
+                            new GoalModal(this.plugin.app, (result) => {
+                                void this.plugin.goalManager.editGoal(goal.id, result);
                             }, { title: goal.title, description: goal.description }).open();
                         });
                 });
 
                 menu.addItem((item) => {
-                    item.setTitle('Delete Goal')
+                    item.setTitle('Delete goal')
                         .setIcon('trash')
-                        .onClick(async () => {
-                            if (confirm(`Delete "${goal.title}"?`)) {
-                                await this.plugin.goalManager.deleteGoal(goal.id);
-                            }
+                        .onClick(() => {
+                            new ConfirmModal(this.plugin.app, `Delete "${goal.title}"?`, () => {
+                                void this.plugin.goalManager.deleteGoal(goal.id);
+                            }).open();
                         });
                 });
 
@@ -293,19 +298,19 @@ export class DashboardView extends ItemView {
 
             const completeBtn = actions.createEl('button', { cls: 'goal-action-btn' });
             setIcon(completeBtn, 'check');
-            completeBtn.setAttr('title', 'Mark as Complete');
-            completeBtn.addEventListener('click', async (e) => {
+            completeBtn.setAttr('title', 'Mark as complete');
+            completeBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
-                await this.plugin.goalManager.markGoalAsCompleted(goal.id);
+                void this.plugin.goalManager.markGoalAsCompleted(goal.id);
             });
 
             const deleteBtn = actions.createEl('button', { cls: 'goal-action-btn' });
             setIcon(deleteBtn, 'trash');
-            deleteBtn.addEventListener('click', async (e) => {
+            deleteBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
-                if (confirm(`Delete "${goal.title}"?`)) {
-                    await this.plugin.goalManager.deleteGoal(goal.id);
-                }
+                new ConfirmModal(this.plugin.app, `Delete "${goal.title}"?`, () => {
+                    void this.plugin.goalManager.deleteGoal(goal.id);
+                }).open();
             });
         });
     }
@@ -390,31 +395,31 @@ export class DashboardView extends ItemView {
     renderActionButtons(container: HTMLElement) {
         const section = container.createEl('div', { cls: 'dashboard-actions' });
 
-        const newGoalBtn = section.createEl('button', { text: '+ New Goal' });
+        const newGoalBtn = section.createEl('button', { text: '+ New goal' });
         newGoalBtn.addEventListener('click', () => {
             // Call command or open modal directly
             // Accessing internal command or modal
             (this.plugin.app as unknown as AppWithCommands).commands.executeCommandById('better-task:create-goal');
         });
 
-        const newQuickTaskBtn = section.createEl('button', { text: '+ Quick Task' });
+        const newQuickTaskBtn = section.createEl('button', { text: '+ Quick task' });
         newQuickTaskBtn.addEventListener('click', () => {
             (this.plugin.app as unknown as AppWithCommands).commands.executeCommandById('better-task:create-free-task');
         });
 
-        const newDailyTaskBtn = section.createEl('button', { text: '+ Daily Task' });
+        const newDailyTaskBtn = section.createEl('button', { text: '+ Daily task' });
         newDailyTaskBtn.addEventListener('click', () => {
             (this.plugin.app as unknown as AppWithCommands).commands.executeCommandById('better-task:create-daily-task');
         });
 
         // Student Mode buttons
         if (this.plugin.data.settings.studentMode) {
-            const newUnitBtn = section.createEl('button', { text: '🎓 New Unit' });
+            const newUnitBtn = section.createEl('button', { text: '🎓 New unit' });
             newUnitBtn.addEventListener('click', () => {
                 (this.plugin.app as unknown as AppWithCommands).commands.executeCommandById('better-task:create-unit');
             });
 
-            const addExamBtn = section.createEl('button', { text: '📝 Add Exam' });
+            const addExamBtn = section.createEl('button', { text: '📝 Add exam' });
             addExamBtn.addEventListener('click', () => {
                 (this.plugin.app as unknown as AppWithCommands).commands.executeCommandById('better-task:add-exam');
             });
@@ -445,7 +450,7 @@ export class DashboardView extends ItemView {
             const emptyState = container.createEl('div', { cls: 'empty-state-with-action' });
             emptyState.createEl('p', { text: '📚 No units registered this semester.' });
             emptyState.createEl('p', { text: 'Create units to track your courses and exams.', cls: 'empty-hint' });
-            const btn = emptyState.createEl('button', { text: '+ Create First Unit', cls: 'empty-action-btn' });
+            const btn = emptyState.createEl('button', { text: '+ Create first unit', cls: 'empty-action-btn' });
             btn.addEventListener('click', () => {
                 (this.plugin.app as unknown as AppWithCommands).commands.executeCommandById('better-task:create-unit');
             });
@@ -462,30 +467,30 @@ export class DashboardView extends ItemView {
                 const menu = new Menu();
 
                 menu.addItem((item) => {
-                    item.setTitle('Mark as Complete')
+                    item.setTitle('Mark as complete')
                         .setIcon('check')
-                        .onClick(async () => {
-                            await this.plugin.studentManager.markUnitAsCompleted(unit.id);
+                        .onClick(() => {
+                            void this.plugin.studentManager.markUnitAsCompleted(unit.id);
                         });
                 });
 
                 menu.addItem((item) => {
                     item.setTitle('Archive')
                         .setIcon('archive')
-                        .onClick(async () => {
-                            await this.plugin.studentManager.archiveUnit(unit.id);
+                        .onClick(() => {
+                            void this.plugin.studentManager.archiveUnit(unit.id);
                         });
                 });
 
                 menu.addSeparator();
 
                 menu.addItem((item) => {
-                    item.setTitle('Delete Unit')
+                    item.setTitle('Delete unit')
                         .setIcon('trash')
-                        .onClick(async () => {
-                            if (confirm(`Delete "${unit.name}"?`)) {
-                                await this.plugin.studentManager.deleteUnit(unit.id);
-                            }
+                        .onClick(() => {
+                            new ConfirmModal(this.plugin.app, `Delete "${unit.name}"?`, () => {
+                                void this.plugin.studentManager.deleteUnit(unit.id);
+                            }).open();
                         });
                 });
 
@@ -512,25 +517,29 @@ export class DashboardView extends ItemView {
 
             // Add exam button for this unit
             const addExamBtn = actions.createEl('button', { text: '+ Exam', cls: 'unit-action-btn' });
-            addExamBtn.addEventListener('click', async () => {
-                try {
-                    const { ExamModal } = await import('../modals/examModal');
-                    new ExamModal(this.plugin.app, unit, async (examData) => {
-                        const exam = await this.plugin.studentManager.addExam(unit.id, examData);
-                        if (exam) {
-                            new Notice(`Exam "${exam.title}" added to ${unit.name}!`);
-                            this.render();
-                        }
-                    }).open();
-                } catch (error) {
-                    console.error('Error opening ExamModal:', error);
-                    new Notice('Failed to open exam form. Check console for details.');
-                }
+            addExamBtn.addEventListener('click', () => {
+                void (async () => {
+                    try {
+                        const { ExamModal } = await import('../modals/examModal');
+                        new ExamModal(this.plugin.app, unit, (examData) => {
+                            void (async () => {
+                                const exam = await this.plugin.studentManager.addExam(unit.id, examData);
+                                if (exam) {
+                                    new Notice(`Exam "${exam.title}" added to ${unit.name}!`);
+                                    this.render();
+                                }
+                            })();
+                        }).open();
+                    } catch (error) {
+                        console.error('Error opening ExamModal:', error);
+                        new Notice('Failed to open exam form. Check console for details.');
+                    }
+                })();
             });
 
             const completeBtn = actions.createEl('button', { text: 'Complete', cls: 'unit-action-btn' });
-            completeBtn.addEventListener('click', async () => {
-                await this.plugin.studentManager.markUnitAsCompleted(unit.id);
+            completeBtn.addEventListener('click', () => {
+                void this.plugin.studentManager.markUnitAsCompleted(unit.id);
             });
         });
     }
@@ -582,17 +591,18 @@ export class DashboardView extends ItemView {
             // Bottom Actions
             const footer = card.createDiv({ cls: 'exam-footer' });
 
-            const studyBtn = footer.createEl('button', { text: 'Generate Plan', cls: 'study-tasks-btn' });
-            studyBtn.addEventListener('click', async () => {
-                // ... same logic
-                try {
-                    const tasks = await this.plugin.studentManager.generateStudyTasks(exam.id);
-                    new Notice(`Generated ${tasks.length} study task${tasks.length !== 1 ? 's' : ''} for ${exam.title}!`);
-                    this.render();
-                } catch (error) {
-                    console.error('Error generating study tasks:', error);
-                    new Notice('Failed to generate study tasks. Check console for details.');
-                }
+            const studyBtn = footer.createEl('button', { text: 'Generate plan', cls: 'study-tasks-btn' });
+            studyBtn.addEventListener('click', () => {
+                void (async () => {
+                    try {
+                        const tasks = await this.plugin.studentManager.generateStudyTasks(exam.id);
+                        new Notice(`Generated ${tasks.length} study task${tasks.length !== 1 ? 's' : ''} for ${exam.title}!`);
+                        this.render();
+                    } catch (error) {
+                        console.error('Error generating study tasks:', error);
+                        new Notice('Failed to generate study tasks. Check console for details.');
+                    }
+                })();
             });
         });
     }

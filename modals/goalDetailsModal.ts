@@ -41,15 +41,18 @@ export class GoalDetailsModal extends Modal {
         healthCircle.createDiv({ text: 'consistency', cls: 'health-label' });
 
         // Color based on consistency
-        let color = 'var(--text-error)';
-        if (consistency >= 80) color = 'var(--text-success)';
-        else if (consistency >= 50) color = 'var(--text-warning)';
-        healthCircle.style.borderColor = color;
+        if (consistency >= 80) healthCircle.addClass('health-high');
+        else if (consistency >= 50) healthCircle.addClass('health-medium');
+        else healthCircle.addClass('health-low');
 
         const statsList = sidebar.createDiv({ cls: 'goal-mini-stats' });
-        statsList.createDiv({ cls: 'mini-stat' }).innerHTML = `<span>Streak</span> <strong>${streak}d</strong>`;
+        const streakStat = statsList.createDiv({ cls: 'mini-stat' });
+        streakStat.createEl('span', { text: 'Streak' });
+        streakStat.createEl('strong', { text: `${streak}d` });
         const daysSince = this.plugin.goalManager.getDaysSinceLastCompletion(this.goal.id);
-        statsList.createDiv({ cls: 'mini-stat' }).innerHTML = `<span>Last Active</span> <strong>${daysSince === 0 ? 'Today' : daysSince + 'd ago'}</strong>`;
+        const lastActiveStat = statsList.createDiv({ cls: 'mini-stat' });
+        lastActiveStat.createEl('span', { text: 'Last Active' });
+        lastActiveStat.createEl('strong', { text: daysSince === 0 ? 'Today' : `${daysSince}d ago` });
 
         // Main Content: Tasks
         const main = layout.createDiv({ cls: 'goal-dashboard-main' });
@@ -76,19 +79,21 @@ export class GoalDetailsModal extends Modal {
         // Footer Actions
         const footer = contentEl.createDiv({ cls: 'goal-dashboard-footer' });
 
-        const addTaskBtn = footer.createEl('button', { text: '+ New Daily Task', cls: 'mod-cta' });
+        const addTaskBtn = footer.createEl('button', { text: '+ New daily task', cls: 'mod-cta' });
         addTaskBtn.onclick = () => {
             this.close();
-            new TaskModal(this.plugin, 'daily', [this.goal], async (result) => {
-                if (result.goalId) await this.plugin.taskManager.createDailyTask(result.goalId, result);
+            new TaskModal(this.plugin, 'daily', [this.goal], (result) => {
+                if (result.goalId) {
+                    void this.plugin.taskManager.createDailyTask(result.goalId, result);
+                }
             }).open();
         };
 
-        const editBtn = footer.createEl('button', { text: 'Edit Goal' });
+        const editBtn = footer.createEl('button', { text: 'Edit goal' });
         editBtn.onclick = () => {
             this.close();
-            new GoalModal(this.app, async (result: { title: string; description: string }) => {
-                await this.plugin.goalManager.editGoal(this.goal.id, result);
+            new GoalModal(this.app, (result: { title: string; description: string }) => {
+                void this.plugin.goalManager.editGoal(this.goal.id, result);
             }, { title: this.goal.title, description: this.goal.description }).open();
         };
     }

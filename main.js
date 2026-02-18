@@ -29,11 +29,11 @@ var examModal_exports = {};
 __export(examModal_exports, {
   ExamModal: () => ExamModal
 });
-var import_obsidian6, ExamModal;
+var import_obsidian7, ExamModal;
 var init_examModal = __esm({
   "modals/examModal.ts"() {
-    import_obsidian6 = require("obsidian");
-    ExamModal = class extends import_obsidian6.Modal {
+    import_obsidian7 = require("obsidian");
+    ExamModal = class extends import_obsidian7.Modal {
       constructor(app, unit, onSubmit) {
         super(app);
         this.examData = {};
@@ -43,11 +43,11 @@ var init_examModal = __esm({
       onOpen() {
         const { contentEl } = this;
         contentEl.empty();
-        contentEl.createEl("h2", { text: `Add Exam for ${this.unit.name}` });
-        new import_obsidian6.Setting(contentEl).setName("Exam Title").setDesc("Name or type of the exam").addText((text) => text.setPlaceholder("e.g., Midterm Exam, Final Exam").onChange((value) => {
+        contentEl.createEl("h2", { text: `Add exam for ${this.unit.name}` });
+        new import_obsidian7.Setting(contentEl).setName("Exam Title").setDesc("Name or type of the exam").addText((text) => text.setPlaceholder("e.g., Midterm Exam, Final Exam").onChange((value) => {
           this.examData.title = value;
         }));
-        new import_obsidian6.Setting(contentEl).setName("Date").setDesc("Exam date").addText((text) => {
+        new import_obsidian7.Setting(contentEl).setName("Date").setDesc("Exam date").addText((text) => {
           text.inputEl.type = "date";
           text.setPlaceholder("YYYY-MM-DD").onChange((value) => {
             if (value) {
@@ -57,34 +57,34 @@ var init_examModal = __esm({
             }
           });
         });
-        new import_obsidian6.Setting(contentEl).setName("Time").setDesc("Exam time (24-hour format)").addText((text) => {
+        new import_obsidian7.Setting(contentEl).setName("Time").setDesc("Exam time (24-hour format)").addText((text) => {
           text.inputEl.type = "time";
           text.setPlaceholder("HH:MM").setValue("09:00").onChange((value) => {
             this.examData.time = value;
           });
         });
-        new import_obsidian6.Setting(contentEl).setName("Location").setDesc("Exam room or building (optional)").addText((text) => text.setPlaceholder("e.g., Room 301, Building A").onChange((value) => {
+        new import_obsidian7.Setting(contentEl).setName("Location").setDesc("Exam room or building (optional)").addText((text) => text.setPlaceholder("e.g., Room 301, Building A").onChange((value) => {
           this.examData.location = value || void 0;
         }));
-        new import_obsidian6.Setting(contentEl).setName("Topics").setDesc("Comma-separated list of exam topics").addTextArea((textArea) => {
+        new import_obsidian7.Setting(contentEl).setName("Topics").setDesc("Comma-separated list of exam topics").addTextArea((textArea) => {
           textArea.setPlaceholder("e.g., Data Structures, Algorithms, Complexity Analysis").onChange((value) => {
             this.examData.topics = value.split(",").map((t) => t.trim()).filter((t) => t.length > 0);
           });
           textArea.inputEl.rows = 4;
-          textArea.inputEl.style.width = "100%";
+          textArea.inputEl.addClass("textarea-full-width");
         });
         const buttonContainer = contentEl.createDiv({ cls: "modal-button-container" });
         const submitBtn = buttonContainer.createEl("button", {
-          text: "Add Exam",
+          text: "Add exam",
           cls: "mod-cta"
         });
         const addAnotherBtn = buttonContainer.createEl("button", {
-          text: "Add & Another",
+          text: "Add & another",
           attr: { style: "margin-right: 10px;" }
         });
         const handleSubmit = (shouldClose) => {
           if (!this.examData.title || !this.examData.date) {
-            new import_obsidian6.Notice("Please fill in exam title and date");
+            new import_obsidian7.Notice("Please fill in exam title and date");
             return;
           }
           if (!this.examData.time) {
@@ -97,7 +97,7 @@ var init_examModal = __esm({
           if (shouldClose) {
             this.close();
           } else {
-            new import_obsidian6.Notice("Exam added! Add another.");
+            new import_obsidian7.Notice("Exam added! Add another.");
             this.examData.title = "";
             this.examData.topics = [];
             this.onOpen();
@@ -126,7 +126,7 @@ __export(main_exports, {
   default: () => BetterTaskPlugin
 });
 module.exports = __toCommonJS(main_exports);
-var import_obsidian12 = require("obsidian");
+var import_obsidian13 = require("obsidian");
 
 // goalManager.ts
 var import_obsidian = require("obsidian");
@@ -135,7 +135,7 @@ var GoalManager = class {
     this.plugin = plugin;
   }
   async createGoal(title, description) {
-    const id = Date.now().toString(36) + Math.random().toString(36).substr(2);
+    const id = Date.now().toString(36) + Math.random().toString(36).substring(2);
     const newGoal = {
       id,
       title,
@@ -252,7 +252,7 @@ var TaskManager = class {
     this.plugin = plugin;
   }
   async createDailyTask(goalId, taskData) {
-    const id = Date.now().toString(36) + Math.random().toString(36).substr(2);
+    const id = Date.now().toString(36) + Math.random().toString(36).substring(2);
     const newTask = {
       id,
       goalId,
@@ -272,7 +272,7 @@ var TaskManager = class {
     return newTask;
   }
   async createFreeTask(taskData) {
-    const id = Date.now().toString(36) + Math.random().toString(36).substr(2);
+    const id = Date.now().toString(36) + Math.random().toString(36).substring(2);
     const newTask = {
       id,
       title: taskData.title || "New Task",
@@ -397,7 +397,7 @@ var GoalModal = class extends import_obsidian3.Modal {
   }
   onOpen() {
     const { contentEl } = this;
-    contentEl.createEl("h1", { text: this.initialData ? "Edit Goal" : "Create New Goal" });
+    contentEl.createEl("h1", { text: this.initialData ? "Edit goal" : "Create new goal" });
     new import_obsidian3.Setting(contentEl).setName("Title").addText((text) => text.setValue(this.result.title).onChange((value) => {
       this.result.title = value;
     }));
@@ -433,7 +433,7 @@ var TaskModal = class extends import_obsidian4.Modal {
   }
   onOpen() {
     const { contentEl } = this;
-    contentEl.createEl("h1", { text: `Create ${this.type === "daily" ? "Daily" : "Quick"} Task` });
+    contentEl.createEl("h1", { text: `Create ${this.type === "daily" ? "daily" : "quick"} task` });
     if (this.type === "daily") {
       if (this.goals.length > 0) {
         this.result.goalId = this.goals[0].id;
@@ -464,7 +464,7 @@ var TaskModal = class extends import_obsidian4.Modal {
     new import_obsidian4.Setting(contentEl).setName("Reminder (minutes before)").addText((text) => text.setValue("15").onChange((value) => {
       this.result.reminderMinutes = parseInt(value, 10) || 0;
     }));
-    new import_obsidian4.Setting(contentEl).addButton((btn) => btn.setButtonText("Create & Add Another").onClick(() => {
+    new import_obsidian4.Setting(contentEl).addButton((btn) => btn.setButtonText("Create & add another").onClick(() => {
       this.onSubmit(this.result);
       this.result.title = "";
       this.result.description = "";
@@ -477,24 +477,17 @@ var TaskModal = class extends import_obsidian4.Modal {
     }));
   }
   createDailyTaskFields(contentEl) {
-    const warningEl = contentEl.createDiv({ cls: "task-conflict-warning" });
-    warningEl.style.display = "none";
-    warningEl.style.color = "var(--text-error)";
-    warningEl.style.marginBottom = "15px";
-    warningEl.style.padding = "10px";
-    warningEl.style.backgroundColor = "rgba(233, 62, 62, 0.1)";
-    warningEl.style.borderRadius = "5px";
-    warningEl.style.fontSize = "0.9em";
+    const warningEl = contentEl.createDiv({ cls: "task-conflict-warning hidden" });
     const validateConflicts = () => {
       const plugin = this.app.plugins.plugins["better-task"];
       if (plugin && plugin.taskManager) {
         const conflicts = plugin.taskManager.checkTaskConflicts(this.result);
         if (conflicts.length > 0) {
-          warningEl.style.display = "block";
+          warningEl.removeClass("hidden");
           const conflictTitles = conflicts.map((t) => t.title).join(", ");
           warningEl.setText(`\u26A0\uFE0F Conflict with: ${conflictTitles}`);
         } else {
-          warningEl.style.display = "none";
+          warningEl.addClass("hidden");
         }
       }
     };
@@ -524,8 +517,7 @@ var TaskModal = class extends import_obsidian4.Modal {
         validateConflicts();
       };
       dayContainer.createEl("label", { text: day, attr: { for: `day-${index}` } });
-      dayContainer.style.display = "inline-block";
-      dayContainer.style.marginRight = "10px";
+      dayContainer.addClass("day-checkbox-container");
     });
     new import_obsidian4.Setting(contentEl).setName("Start Time").addText((text) => {
       text.inputEl.type = "time";
@@ -569,7 +561,7 @@ var TaskModal = class extends import_obsidian4.Modal {
 };
 
 // views/dashboardView.ts
-var import_obsidian7 = require("obsidian");
+var import_obsidian8 = require("obsidian");
 
 // modals/goalDetailsModal.ts
 var import_obsidian5 = require("obsidian");
@@ -596,16 +588,20 @@ var GoalDetailsModal = class extends import_obsidian5.Modal {
     const healthCircle = sidebar.createDiv({ cls: "goal-health-ring" });
     healthCircle.createDiv({ text: `${Math.round(consistency)}%`, cls: "health-value" });
     healthCircle.createDiv({ text: "consistency", cls: "health-label" });
-    let color = "var(--text-error)";
     if (consistency >= 80)
-      color = "var(--text-success)";
+      healthCircle.addClass("health-high");
     else if (consistency >= 50)
-      color = "var(--text-warning)";
-    healthCircle.style.borderColor = color;
+      healthCircle.addClass("health-medium");
+    else
+      healthCircle.addClass("health-low");
     const statsList = sidebar.createDiv({ cls: "goal-mini-stats" });
-    statsList.createDiv({ cls: "mini-stat" }).innerHTML = `<span>Streak</span> <strong>${streak}d</strong>`;
+    const streakStat = statsList.createDiv({ cls: "mini-stat" });
+    streakStat.createEl("span", { text: "Streak" });
+    streakStat.createEl("strong", { text: `${streak}d` });
     const daysSince = this.plugin.goalManager.getDaysSinceLastCompletion(this.goal.id);
-    statsList.createDiv({ cls: "mini-stat" }).innerHTML = `<span>Last Active</span> <strong>${daysSince === 0 ? "Today" : daysSince + "d ago"}</strong>`;
+    const lastActiveStat = statsList.createDiv({ cls: "mini-stat" });
+    lastActiveStat.createEl("span", { text: "Last Active" });
+    lastActiveStat.createEl("strong", { text: daysSince === 0 ? "Today" : `${daysSince}d ago` });
     const main = layout.createDiv({ cls: "goal-dashboard-main" });
     main.createEl("h3", { text: "Daily Schedule" });
     const taskList = main.createDiv({ cls: "goal-task-list-modern" });
@@ -626,19 +622,20 @@ var GoalDetailsModal = class extends import_obsidian5.Modal {
       });
     }
     const footer = contentEl.createDiv({ cls: "goal-dashboard-footer" });
-    const addTaskBtn = footer.createEl("button", { text: "+ New Daily Task", cls: "mod-cta" });
+    const addTaskBtn = footer.createEl("button", { text: "+ New daily task", cls: "mod-cta" });
     addTaskBtn.onclick = () => {
       this.close();
-      new TaskModal(this.plugin, "daily", [this.goal], async (result) => {
-        if (result.goalId)
-          await this.plugin.taskManager.createDailyTask(result.goalId, result);
+      new TaskModal(this.plugin, "daily", [this.goal], (result) => {
+        if (result.goalId) {
+          void this.plugin.taskManager.createDailyTask(result.goalId, result);
+        }
       }).open();
     };
-    const editBtn = footer.createEl("button", { text: "Edit Goal" });
+    const editBtn = footer.createEl("button", { text: "Edit goal" });
     editBtn.onclick = () => {
       this.close();
-      new GoalModal(this.app, async (result) => {
-        await this.plugin.goalManager.editGoal(this.goal.id, result);
+      new GoalModal(this.app, (result) => {
+        void this.plugin.goalManager.editGoal(this.goal.id, result);
       }, { title: this.goal.title, description: this.goal.description }).open();
     };
   }
@@ -648,9 +645,34 @@ var GoalDetailsModal = class extends import_obsidian5.Modal {
   }
 };
 
+// modals/confirmModal.ts
+var import_obsidian6 = require("obsidian");
+var ConfirmModal = class extends import_obsidian6.Modal {
+  constructor(app, message, onConfirm) {
+    super(app);
+    this.message = message;
+    this.onConfirm = onConfirm;
+  }
+  onOpen() {
+    const { contentEl } = this;
+    contentEl.empty();
+    contentEl.createEl("p", { text: this.message });
+    new import_obsidian6.Setting(contentEl).addButton((btn) => btn.setButtonText("Cancel").onClick(() => {
+      this.close();
+    })).addButton((btn) => btn.setButtonText("Confirm").setCta().onClick(() => {
+      this.close();
+      this.onConfirm();
+    }));
+  }
+  onClose() {
+    const { contentEl } = this;
+    contentEl.empty();
+  }
+};
+
 // views/dashboardView.ts
 var DASHBOARD_VIEW_TYPE = "better-task-dashboard";
-var DashboardView = class extends import_obsidian7.ItemView {
+var DashboardView = class extends import_obsidian8.ItemView {
   constructor(leaf, plugin) {
     super(leaf);
     this.showAllExams = false;
@@ -667,11 +689,12 @@ var DashboardView = class extends import_obsidian7.ItemView {
   getIcon() {
     return "check-circle";
   }
-  async onOpen() {
+  onOpen() {
     this.render();
     this.registerEvent(this.plugin.app.workspace.on("better-task:data-change", () => {
       this.render();
     }));
+    return Promise.resolve();
   }
   async onClose() {
   }
@@ -703,7 +726,7 @@ var DashboardView = class extends import_obsidian7.ItemView {
   renderHeader(container) {
     const headerEl = container.createEl("div", { cls: "dashboard-header" });
     headerEl.createEl("h1", { text: "Better Task Dashboard" });
-    headerEl.createEl("h3", { text: (0, import_obsidian7.moment)().format("dddd, MMMM Do YYYY") });
+    headerEl.createEl("h3", { text: (0, import_obsidian8.moment)().format("dddd, MMMM Do YYYY") });
   }
   renderTodaysTasks(container) {
     const section = container.createEl("div", { cls: "dashboard-section" });
@@ -713,7 +736,7 @@ var DashboardView = class extends import_obsidian7.ItemView {
       const emptyState = section.createEl("div", { cls: "empty-state-with-action" });
       emptyState.createEl("p", { text: "\u{1F4C5} No daily tasks scheduled for today." });
       emptyState.createEl("p", { text: "Daily tasks are recurring activities linked to your goals.", cls: "empty-hint" });
-      const btn = emptyState.createEl("button", { text: "+ Create Daily Task", cls: "empty-action-btn" });
+      const btn = emptyState.createEl("button", { text: "+ Create daily task", cls: "empty-action-btn" });
       btn.addEventListener("click", () => {
         this.plugin.app.commands.executeCommandById("better-task:create-daily-task");
       });
@@ -727,14 +750,16 @@ var DashboardView = class extends import_obsidian7.ItemView {
         taskEl.addClass("completed");
       const checkbox = taskEl.createEl("input", { type: "checkbox" });
       checkbox.checked = isCompleted;
-      checkbox.addEventListener("change", async () => {
-        if (checkbox.checked) {
-          await this.plugin.taskManager.completeTask(task.id, task.goalId);
-          this.render();
-        } else {
-          await this.plugin.taskManager.uncompleteTask(task.id);
-          this.render();
-        }
+      checkbox.addEventListener("change", () => {
+        void (async () => {
+          if (checkbox.checked) {
+            await this.plugin.taskManager.completeTask(task.id, task.goalId);
+            this.render();
+          } else {
+            await this.plugin.taskManager.uncompleteTask(task.id);
+            this.render();
+          }
+        })();
       });
       const content = taskEl.createEl("div", { cls: "task-content" });
       content.createEl("span", { text: task.title, cls: "task-title" });
@@ -753,7 +778,7 @@ var DashboardView = class extends import_obsidian7.ItemView {
       const emptyState = section.createEl("div", { cls: "empty-state-with-action" });
       emptyState.createEl("p", { text: "\u2705 No pending quick tasks." });
       emptyState.createEl("p", { text: "Quick tasks are one-off to-dos you need to complete.", cls: "empty-hint" });
-      const btn = emptyState.createEl("button", { text: "+ Create Quick Task", cls: "empty-action-btn" });
+      const btn = emptyState.createEl("button", { text: "+ Create quick task", cls: "empty-action-btn" });
       btn.addEventListener("click", () => {
         this.plugin.app.commands.executeCommandById("better-task:create-free-task");
       });
@@ -764,14 +789,16 @@ var DashboardView = class extends import_obsidian7.ItemView {
       const taskEl = list.createEl("div", { cls: "task-item" });
       const checkbox = taskEl.createEl("input", { type: "checkbox" });
       checkbox.checked = false;
-      checkbox.addEventListener("change", async () => {
-        if (checkbox.checked) {
-          await this.plugin.taskManager.completeTask(task.id);
-          this.render();
-        } else {
-          await this.plugin.taskManager.uncompleteTask(task.id);
-          this.render();
-        }
+      checkbox.addEventListener("change", () => {
+        void (async () => {
+          if (checkbox.checked) {
+            await this.plugin.taskManager.completeTask(task.id);
+            this.render();
+          } else {
+            await this.plugin.taskManager.uncompleteTask(task.id);
+            this.render();
+          }
+        })();
       });
       const content = taskEl.createEl("div", { cls: "task-content" });
       content.createEl("span", { text: task.title, cls: "task-title" });
@@ -787,7 +814,7 @@ var DashboardView = class extends import_obsidian7.ItemView {
       const emptyState = section.createEl("div", { cls: "empty-state-with-action" });
       emptyState.createEl("p", { text: "No goals yet. Let's get started!" });
       emptyState.createEl("p", { text: "Goals are long-term habits or resolutions you want to track.", cls: "empty-hint" });
-      const btn = emptyState.createEl("button", { text: "+ Create Your First Goal", cls: "empty-action-btn primary" });
+      const btn = emptyState.createEl("button", { text: "+ Create your first goal", cls: "empty-action-btn primary" });
       btn.addEventListener("click", () => {
         this.plugin.app.commands.executeCommandById("better-task:create-goal");
       });
@@ -808,30 +835,30 @@ var DashboardView = class extends import_obsidian7.ItemView {
         new GoalDetailsModal(this.plugin, goal).open();
       });
       card.addEventListener("contextmenu", (event) => {
-        const menu = new import_obsidian7.Menu();
+        const menu = new import_obsidian8.Menu();
         menu.addItem((item) => {
-          item.setTitle("Mark as Complete").setIcon("check").onClick(async () => {
-            await this.plugin.goalManager.markGoalAsCompleted(goal.id);
+          item.setTitle("Mark as complete").setIcon("check").onClick(() => {
+            void this.plugin.goalManager.markGoalAsCompleted(goal.id);
           });
         });
         menu.addItem((item) => {
-          item.setTitle("Archive").setIcon("archive").onClick(async () => {
-            await this.plugin.goalManager.archiveGoal(goal.id);
+          item.setTitle("Archive").setIcon("archive").onClick(() => {
+            void this.plugin.goalManager.archiveGoal(goal.id);
           });
         });
         menu.addSeparator();
         menu.addItem((item) => {
-          item.setTitle("Edit Goal").setIcon("pencil").onClick(() => {
-            new GoalModal(this.plugin.app, async (result) => {
-              await this.plugin.goalManager.editGoal(goal.id, result);
+          item.setTitle("Edit goal").setIcon("pencil").onClick(() => {
+            new GoalModal(this.plugin.app, (result) => {
+              void this.plugin.goalManager.editGoal(goal.id, result);
             }, { title: goal.title, description: goal.description }).open();
           });
         });
         menu.addItem((item) => {
-          item.setTitle("Delete Goal").setIcon("trash").onClick(async () => {
-            if (confirm(`Delete "${goal.title}"?`)) {
-              await this.plugin.goalManager.deleteGoal(goal.id);
-            }
+          item.setTitle("Delete goal").setIcon("trash").onClick(() => {
+            new ConfirmModal(this.plugin.app, `Delete "${goal.title}"?`, () => {
+              void this.plugin.goalManager.deleteGoal(goal.id);
+            }).open();
           });
         });
         menu.showAtMouseEvent(event);
@@ -856,7 +883,7 @@ var DashboardView = class extends import_obsidian7.ItemView {
       footer.createEl("span", { text: `${Math.round(consistency)}%`, cls: "health-percent" });
       const actions = card.createEl("div", { cls: "goal-actions" });
       const editBtn = actions.createEl("button", { cls: "goal-action-btn" });
-      (0, import_obsidian7.setIcon)(editBtn, "pencil");
+      (0, import_obsidian8.setIcon)(editBtn, "pencil");
       editBtn.addEventListener("click", (e) => {
         e.stopPropagation();
         new GoalModal(this.plugin.app, async (result) => {
@@ -864,19 +891,19 @@ var DashboardView = class extends import_obsidian7.ItemView {
         }, { title: goal.title, description: goal.description }).open();
       });
       const completeBtn = actions.createEl("button", { cls: "goal-action-btn" });
-      (0, import_obsidian7.setIcon)(completeBtn, "check");
-      completeBtn.setAttr("title", "Mark as Complete");
-      completeBtn.addEventListener("click", async (e) => {
+      (0, import_obsidian8.setIcon)(completeBtn, "check");
+      completeBtn.setAttr("title", "Mark as complete");
+      completeBtn.addEventListener("click", (e) => {
         e.stopPropagation();
-        await this.plugin.goalManager.markGoalAsCompleted(goal.id);
+        void this.plugin.goalManager.markGoalAsCompleted(goal.id);
       });
       const deleteBtn = actions.createEl("button", { cls: "goal-action-btn" });
-      (0, import_obsidian7.setIcon)(deleteBtn, "trash");
-      deleteBtn.addEventListener("click", async (e) => {
+      (0, import_obsidian8.setIcon)(deleteBtn, "trash");
+      deleteBtn.addEventListener("click", (e) => {
         e.stopPropagation();
-        if (confirm(`Delete "${goal.title}"?`)) {
-          await this.plugin.goalManager.deleteGoal(goal.id);
-        }
+        new ConfirmModal(this.plugin.app, `Delete "${goal.title}"?`, () => {
+          void this.plugin.goalManager.deleteGoal(goal.id);
+        }).open();
       });
     });
   }
@@ -935,24 +962,24 @@ var DashboardView = class extends import_obsidian7.ItemView {
   }
   renderActionButtons(container) {
     const section = container.createEl("div", { cls: "dashboard-actions" });
-    const newGoalBtn = section.createEl("button", { text: "+ New Goal" });
+    const newGoalBtn = section.createEl("button", { text: "+ New goal" });
     newGoalBtn.addEventListener("click", () => {
       this.plugin.app.commands.executeCommandById("better-task:create-goal");
     });
-    const newQuickTaskBtn = section.createEl("button", { text: "+ Quick Task" });
+    const newQuickTaskBtn = section.createEl("button", { text: "+ Quick task" });
     newQuickTaskBtn.addEventListener("click", () => {
       this.plugin.app.commands.executeCommandById("better-task:create-free-task");
     });
-    const newDailyTaskBtn = section.createEl("button", { text: "+ Daily Task" });
+    const newDailyTaskBtn = section.createEl("button", { text: "+ Daily task" });
     newDailyTaskBtn.addEventListener("click", () => {
       this.plugin.app.commands.executeCommandById("better-task:create-daily-task");
     });
     if (this.plugin.data.settings.studentMode) {
-      const newUnitBtn = section.createEl("button", { text: "\u{1F393} New Unit" });
+      const newUnitBtn = section.createEl("button", { text: "\u{1F393} New unit" });
       newUnitBtn.addEventListener("click", () => {
         this.plugin.app.commands.executeCommandById("better-task:create-unit");
       });
-      const addExamBtn = section.createEl("button", { text: "\u{1F4DD} Add Exam" });
+      const addExamBtn = section.createEl("button", { text: "\u{1F4DD} Add exam" });
       addExamBtn.addEventListener("click", () => {
         this.plugin.app.commands.executeCommandById("better-task:add-exam");
       });
@@ -978,7 +1005,7 @@ var DashboardView = class extends import_obsidian7.ItemView {
       const emptyState = container.createEl("div", { cls: "empty-state-with-action" });
       emptyState.createEl("p", { text: "\u{1F4DA} No units registered this semester." });
       emptyState.createEl("p", { text: "Create units to track your courses and exams.", cls: "empty-hint" });
-      const btn = emptyState.createEl("button", { text: "+ Create First Unit", cls: "empty-action-btn" });
+      const btn = emptyState.createEl("button", { text: "+ Create first unit", cls: "empty-action-btn" });
       btn.addEventListener("click", () => {
         this.plugin.app.commands.executeCommandById("better-task:create-unit");
       });
@@ -988,23 +1015,23 @@ var DashboardView = class extends import_obsidian7.ItemView {
     currentUnits.forEach((unit) => {
       const card = grid.createEl("div", { cls: "unit-card" });
       card.addEventListener("contextmenu", (event) => {
-        const menu = new import_obsidian7.Menu();
+        const menu = new import_obsidian8.Menu();
         menu.addItem((item) => {
-          item.setTitle("Mark as Complete").setIcon("check").onClick(async () => {
-            await this.plugin.studentManager.markUnitAsCompleted(unit.id);
+          item.setTitle("Mark as complete").setIcon("check").onClick(() => {
+            void this.plugin.studentManager.markUnitAsCompleted(unit.id);
           });
         });
         menu.addItem((item) => {
-          item.setTitle("Archive").setIcon("archive").onClick(async () => {
-            await this.plugin.studentManager.archiveUnit(unit.id);
+          item.setTitle("Archive").setIcon("archive").onClick(() => {
+            void this.plugin.studentManager.archiveUnit(unit.id);
           });
         });
         menu.addSeparator();
         menu.addItem((item) => {
-          item.setTitle("Delete Unit").setIcon("trash").onClick(async () => {
-            if (confirm(`Delete "${unit.name}"?`)) {
-              await this.plugin.studentManager.deleteUnit(unit.id);
-            }
+          item.setTitle("Delete unit").setIcon("trash").onClick(() => {
+            new ConfirmModal(this.plugin.app, `Delete "${unit.name}"?`, () => {
+              void this.plugin.studentManager.deleteUnit(unit.id);
+            }).open();
           });
         });
         menu.showAtMouseEvent(event);
@@ -1022,24 +1049,28 @@ var DashboardView = class extends import_obsidian7.ItemView {
       }
       const actions = card.createEl("div", { cls: "unit-actions", attr: { style: "display: flex; gap: 8px; margin-top: 10px;" } });
       const addExamBtn = actions.createEl("button", { text: "+ Exam", cls: "unit-action-btn" });
-      addExamBtn.addEventListener("click", async () => {
-        try {
-          const { ExamModal: ExamModal2 } = await Promise.resolve().then(() => (init_examModal(), examModal_exports));
-          new ExamModal2(this.plugin.app, unit, async (examData) => {
-            const exam = await this.plugin.studentManager.addExam(unit.id, examData);
-            if (exam) {
-              new import_obsidian7.Notice(`Exam "${exam.title}" added to ${unit.name}!`);
-              this.render();
-            }
-          }).open();
-        } catch (error) {
-          console.error("Error opening ExamModal:", error);
-          new import_obsidian7.Notice("Failed to open exam form. Check console for details.");
-        }
+      addExamBtn.addEventListener("click", () => {
+        void (async () => {
+          try {
+            const { ExamModal: ExamModal2 } = await Promise.resolve().then(() => (init_examModal(), examModal_exports));
+            new ExamModal2(this.plugin.app, unit, (examData) => {
+              void (async () => {
+                const exam = await this.plugin.studentManager.addExam(unit.id, examData);
+                if (exam) {
+                  new import_obsidian8.Notice(`Exam "${exam.title}" added to ${unit.name}!`);
+                  this.render();
+                }
+              })();
+            }).open();
+          } catch (error) {
+            console.error("Error opening ExamModal:", error);
+            new import_obsidian8.Notice("Failed to open exam form. Check console for details.");
+          }
+        })();
       });
       const completeBtn = actions.createEl("button", { text: "Complete", cls: "unit-action-btn" });
-      completeBtn.addEventListener("click", async () => {
-        await this.plugin.studentManager.markUnitAsCompleted(unit.id);
+      completeBtn.addEventListener("click", () => {
+        void this.plugin.studentManager.markUnitAsCompleted(unit.id);
       });
     });
   }
@@ -1076,16 +1107,18 @@ var DashboardView = class extends import_obsidian7.ItemView {
       const dateStr = examDate.toLocaleDateString("en-US", { month: "short", day: "numeric" });
       card.createDiv({ text: `${dateStr} at ${exam.time}`, cls: "exam-date-sub" });
       const footer = card.createDiv({ cls: "exam-footer" });
-      const studyBtn = footer.createEl("button", { text: "Generate Plan", cls: "study-tasks-btn" });
-      studyBtn.addEventListener("click", async () => {
-        try {
-          const tasks = await this.plugin.studentManager.generateStudyTasks(exam.id);
-          new import_obsidian7.Notice(`Generated ${tasks.length} study task${tasks.length !== 1 ? "s" : ""} for ${exam.title}!`);
-          this.render();
-        } catch (error) {
-          console.error("Error generating study tasks:", error);
-          new import_obsidian7.Notice("Failed to generate study tasks. Check console for details.");
-        }
+      const studyBtn = footer.createEl("button", { text: "Generate plan", cls: "study-tasks-btn" });
+      studyBtn.addEventListener("click", () => {
+        void (async () => {
+          try {
+            const tasks = await this.plugin.studentManager.generateStudyTasks(exam.id);
+            new import_obsidian8.Notice(`Generated ${tasks.length} study task${tasks.length !== 1 ? "s" : ""} for ${exam.title}!`);
+            this.render();
+          } catch (error) {
+            console.error("Error generating study tasks:", error);
+            new import_obsidian8.Notice("Failed to generate study tasks. Check console for details.");
+          }
+        })();
       });
     });
   }
@@ -1131,8 +1164,8 @@ var DashboardView = class extends import_obsidian7.ItemView {
           const status = (goal == null ? void 0 : goal.status) || "active";
           if (!goal || status !== "active")
             continue;
-          const createdMoment = (0, import_obsidian7.moment)(dt.createdAt);
-          const checkMoment = (0, import_obsidian7.moment)(dateStr);
+          const createdMoment = (0, import_obsidian8.moment)(dt.createdAt);
+          const checkMoment = (0, import_obsidian8.moment)(dateStr);
           if (checkMoment.isBefore(createdMoment, "day"))
             continue;
           if (checkMoment.isSame(createdMoment, "day")) {
@@ -1146,14 +1179,14 @@ var DashboardView = class extends import_obsidian7.ItemView {
       }
       for (const ft of freeTasks) {
         if (ft.dueDate) {
-          const ftStr = (0, import_obsidian7.moment)(ft.dueDate).format("YYYY-MM-DD");
+          const ftStr = (0, import_obsidian8.moment)(ft.dueDate).format("YYYY-MM-DD");
           if (ftStr === dateStr) {
             items.push({ type: "free", label: ft.title, time: ft.dueTime || void 0 });
           }
         }
       }
       for (const ex of allExams) {
-        const exStr = (0, import_obsidian7.moment)(ex.date).format("YYYY-MM-DD");
+        const exStr = (0, import_obsidian8.moment)(ex.date).format("YYYY-MM-DD");
         if (exStr === dateStr) {
           items.push({ type: "exam", label: `${ex.title}${ex.unitCode ? " (" + ex.unitCode + ")" : ""}`, time: ex.time });
         }
@@ -1235,7 +1268,7 @@ var DashboardView = class extends import_obsidian7.ItemView {
 };
 
 // notificationManager.ts
-var import_obsidian8 = require("obsidian");
+var import_obsidian9 = require("obsidian");
 
 // utils/timeUtils.ts
 function subtractMinutes(time, minutes) {
@@ -1269,12 +1302,12 @@ var NotificationManager = class {
     this.requestNotificationPermission();
   }
   requestNotificationPermission() {
-    if (!import_obsidian8.Platform.isDesktop)
+    if (!import_obsidian9.Platform.isDesktop)
       return;
     if (Notification.permission === "default") {
-      Notification.requestPermission().then((permission) => {
+      void Notification.requestPermission().then((permission) => {
         if (permission === "granted") {
-          console.log("Notification permission granted");
+          console.debug("Notification permission granted");
         }
       });
     }
@@ -1352,7 +1385,7 @@ var NotificationManager = class {
     this.notifiedGoals.add(checkKey);
   }
   sendTaskReminder(title, message) {
-    new import_obsidian8.Notice(`\u23F0 ${title}: ${message}`);
+    new import_obsidian9.Notice(`\u23F0 ${title}: ${message}`);
     if (this.plugin.data.settings.reminderSound) {
       this.playNotificationSound();
     }
@@ -1365,7 +1398,7 @@ var NotificationManager = class {
   }
   sendStreakWarning(goalTitle, daysMissed) {
     const msg = `You haven't completed '${goalTitle}' in ${daysMissed} days!`;
-    new import_obsidian8.Notice(`\u26A0\uFE0F ${msg}`, 1e4);
+    new import_obsidian9.Notice(`\u26A0\uFE0F ${msg}`, 1e4);
     if (this.plugin.data.settings.reminderSound) {
       this.playNotificationSound();
     }
@@ -1564,7 +1597,7 @@ var AnalyticsManager = class {
 };
 
 // studentManager.ts
-var import_obsidian9 = require("obsidian");
+var import_obsidian10 = require("obsidian");
 var StudentManager = class {
   constructor(plugin) {
     this.plugin = plugin;
@@ -1668,7 +1701,7 @@ var StudentManager = class {
       unit.completedDate = Date.now();
       await this.plugin.savePluginData();
       this.plugin.app.workspace.trigger("better-task:data-change");
-      new import_obsidian9.Notice(`Unit "${unit.name}" marked as completed!`);
+      new import_obsidian10.Notice(`Unit "${unit.name}" marked as completed!`);
     }
   }
   async archiveUnit(unitId) {
@@ -1677,7 +1710,7 @@ var StudentManager = class {
       unit.status = "archived";
       await this.plugin.savePluginData();
       this.plugin.app.workspace.trigger("better-task:data-change");
-      new import_obsidian9.Notice(`Unit "${unit.name}" archived.`);
+      new import_obsidian10.Notice(`Unit "${unit.name}" archived.`);
     }
   }
   /**
@@ -1762,7 +1795,7 @@ var StudentManager = class {
    * Generate a unique ID
    */
   generateId() {
-    return Date.now().toString(36) + Math.random().toString(36).substr(2);
+    return Date.now().toString(36) + Math.random().toString(36).substring(2);
   }
   /**
    * Get days until an exam
@@ -1781,8 +1814,8 @@ var StudentManager = class {
 };
 
 // modals/unitModal.ts
-var import_obsidian10 = require("obsidian");
-var UnitModal = class extends import_obsidian10.Modal {
+var import_obsidian11 = require("obsidian");
+var UnitModal = class extends import_obsidian11.Modal {
   constructor(app, onSubmit) {
     super(app);
     this.unitData = {};
@@ -1794,24 +1827,24 @@ var UnitModal = class extends import_obsidian10.Modal {
   renderContent() {
     const { contentEl } = this;
     contentEl.empty();
-    contentEl.createEl("h2", { text: "Create New Unit" });
-    new import_obsidian10.Setting(contentEl).setName("Unit Name").setDesc("Full name of the unit/course").addText((text) => text.setPlaceholder("e.g., Introduction to Computer Science").setValue(this.unitData.name || "").onChange((value) => {
+    contentEl.createEl("h2", { text: "Create new unit" });
+    new import_obsidian11.Setting(contentEl).setName("Unit Name").setDesc("Full name of the unit/course").addText((text) => text.setPlaceholder("e.g., Introduction to Computer Science").setValue(this.unitData.name || "").onChange((value) => {
       this.unitData.name = value;
     }));
-    new import_obsidian10.Setting(contentEl).setName("Unit Code").setDesc("Course code or number").addText((text) => text.setPlaceholder("e.g., CS101").setValue(this.unitData.code || "").onChange((value) => {
+    new import_obsidian11.Setting(contentEl).setName("Unit Code").setDesc("Course code or number").addText((text) => text.setPlaceholder("e.g., CS101").setValue(this.unitData.code || "").onChange((value) => {
       this.unitData.code = value;
     }));
-    new import_obsidian10.Setting(contentEl).setName("Semester").setDesc("When this unit is taught").addText((text) => text.setPlaceholder("e.g., Fall 2026").setValue(this.unitData.semester || "").onChange((value) => {
+    new import_obsidian11.Setting(contentEl).setName("Semester").setDesc("When this unit is taught").addText((text) => text.setPlaceholder("e.g., Fall 2026").setValue(this.unitData.semester || "").onChange((value) => {
       this.unitData.semester = value;
     }));
-    new import_obsidian10.Setting(contentEl).setName("Credits").setDesc("Number of credit hours").addText((text) => {
+    new import_obsidian11.Setting(contentEl).setName("Credits").setDesc("Number of credit hours").addText((text) => {
       var _a;
       return text.setPlaceholder("e.g., 3").setValue(((_a = this.unitData.credits) == null ? void 0 : _a.toString()) || "").onChange((value) => {
         const credits = parseInt(value);
         this.unitData.credits = isNaN(credits) ? 0 : credits;
       });
     });
-    new import_obsidian10.Setting(contentEl).setName("Instructor").setDesc("Professor or teacher name (optional)").addText((text) => text.setPlaceholder("e.g., Dr. Smith").setValue(this.unitData.instructor || "").onChange((value) => {
+    new import_obsidian11.Setting(contentEl).setName("Instructor").setDesc("Professor or teacher name (optional)").addText((text) => text.setPlaceholder("e.g., Dr. Smith").setValue(this.unitData.instructor || "").onChange((value) => {
       this.unitData.instructor = value || void 0;
     }));
     const buttonContainer = contentEl.createDiv({ cls: "modal-button-container", attr: { style: "display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px;" } });
@@ -1822,7 +1855,7 @@ var UnitModal = class extends import_obsidian10.Modal {
       this.close();
     });
     const addAnotherBtn = buttonContainer.createEl("button", {
-      text: "Create & Add Another"
+      text: "Create & add another"
     });
     addAnotherBtn.addEventListener("click", () => {
       if (this.validateForm()) {
@@ -1833,7 +1866,7 @@ var UnitModal = class extends import_obsidian10.Modal {
       }
     });
     const submitBtn = buttonContainer.createEl("button", {
-      text: "Create Unit",
+      text: "Create unit",
       cls: "mod-cta"
     });
     submitBtn.addEventListener("click", () => {
@@ -1845,7 +1878,7 @@ var UnitModal = class extends import_obsidian10.Modal {
   }
   validateForm() {
     if (!this.unitData.name || !this.unitData.code) {
-      new import_obsidian10.Notice("Please fill in unit name and code");
+      new import_obsidian11.Notice("Please fill in unit name and code");
       return false;
     }
     return true;
@@ -1860,8 +1893,8 @@ var UnitModal = class extends import_obsidian10.Modal {
 init_examModal();
 
 // modals/welcomeModal.ts
-var import_obsidian11 = require("obsidian");
-var WelcomeModal = class extends import_obsidian11.Modal {
+var import_obsidian12 = require("obsidian");
+var WelcomeModal = class extends import_obsidian12.Modal {
   constructor(app, onCloseCallback) {
     super(app);
     this.onCloseCallback = onCloseCallback;
@@ -1909,7 +1942,7 @@ var DEFAULT_DATA = {
   studentUnits: [],
   settings: DEFAULT_SETTINGS
 };
-var BetterTaskPlugin = class extends import_obsidian12.Plugin {
+var BetterTaskPlugin = class extends import_obsidian13.Plugin {
   constructor() {
     super(...arguments);
     // Undo/Redo stacks (in-memory only, not persisted)
@@ -1917,7 +1950,7 @@ var BetterTaskPlugin = class extends import_obsidian12.Plugin {
     this.redoStack = [];
   }
   async onload() {
-    console.log("Loading Better Task plugin");
+    console.debug("Loading Better Task plugin");
     await this.loadPluginData();
     this.goalManager = new GoalManager(this);
     this.taskManager = new TaskManager(this);
@@ -1926,49 +1959,51 @@ var BetterTaskPlugin = class extends import_obsidian12.Plugin {
     this.studentManager = new StudentManager(this);
     this.notificationManager.startBackgroundCheck();
     if (!this.data.settings.hasSeenWelcome) {
-      new WelcomeModal(this.app, async () => {
-        this.data.settings.hasSeenWelcome = true;
-        await this.savePluginData();
-        this.activateView();
+      new WelcomeModal(this.app, () => {
+        void (async () => {
+          this.data.settings.hasSeenWelcome = true;
+          await this.savePluginData();
+          this.activateView();
+        })();
       }).open();
     }
     this.registerView(
       DASHBOARD_VIEW_TYPE,
       (leaf) => new DashboardView(leaf, this)
     );
-    this.addRibbonIcon("check-circle", "Better Task", (evt) => {
-      this.activateView();
+    this.addRibbonIcon("check-circle", "Better Task", () => {
+      void this.activateView();
     });
     this.addSettingTab(new BetterTaskSettingTab(this.app, this));
     this.addCommand({
       id: "open-dashboard",
-      name: "Open Dashboard",
+      name: "Open dashboard",
       callback: () => {
-        this.activateView();
+        void this.activateView();
       }
     });
     this.addCommand({
       id: "create-goal",
-      name: "Create New Goal",
+      name: "Create new goal",
       callback: () => {
-        new GoalModal(this.app, async (result) => {
-          await this.goalManager.createGoal(result.title, result.description);
+        new GoalModal(this.app, (result) => {
+          void this.goalManager.createGoal(result.title, result.description);
         }).open();
       }
     });
     this.addCommand({
       id: "create-daily-task",
-      name: "Create Daily Task",
+      name: "Create daily task",
       callback: () => {
         if (this.data.goals.length === 0) {
-          new import_obsidian12.Notice("Please create a goal first!");
+          new import_obsidian13.Notice("Please create a goal first!");
           return;
         }
-        new TaskModal(this, "daily", this.data.goals, async (result) => {
+        new TaskModal(this, "daily", this.data.goals, (result) => {
           if (result.goalId) {
-            await this.taskManager.createDailyTask(result.goalId, result);
+            void this.taskManager.createDailyTask(result.goalId, result);
           } else {
-            new import_obsidian12.Notice("No goal selected!");
+            new import_obsidian13.Notice("No goal selected!");
           }
         }).open();
       }
@@ -1977,45 +2012,49 @@ var BetterTaskPlugin = class extends import_obsidian12.Plugin {
       id: "create-free-task",
       name: "Create Quick Task",
       callback: () => {
-        new TaskModal(this, "free", [], async (result) => {
-          await this.taskManager.createFreeTask(result);
+        new TaskModal(this, "free", [], (result) => {
+          void this.taskManager.createFreeTask(result);
         }).open();
       }
     });
     this.addCommand({
       id: "create-unit",
-      name: "Create Unit/Course",
+      name: "Create unit/course",
       callback: () => {
         if (!this.data.settings.studentMode) {
-          new import_obsidian12.Notice("Please enable Student Mode in settings first!");
+          new import_obsidian13.Notice("Please enable Student Mode in settings first!");
           return;
         }
-        new UnitModal(this.app, async (unitData, shouldClose) => {
-          const unit = await this.studentManager.createUnit(unitData);
-          new import_obsidian12.Notice(`Unit "${unit.name}" created!`);
-          this.app.workspace.trigger("better-task:data-change");
+        new UnitModal(this.app, (unitData, shouldClose) => {
+          void (async () => {
+            const unit = await this.studentManager.createUnit(unitData);
+            new import_obsidian13.Notice(`Unit "${unit.name}" created!`);
+            this.app.workspace.trigger("better-task:data-change");
+          })();
         }).open();
       }
     });
     this.addCommand({
       id: "add-exam",
-      name: "Add Exam",
+      name: "Add exam",
       callback: () => {
         if (!this.data.settings.studentMode) {
-          new import_obsidian12.Notice("Please enable Student Mode in settings first!");
+          new import_obsidian13.Notice("Please enable Student Mode in settings first!");
           return;
         }
         if (this.data.studentUnits.length === 0) {
-          new import_obsidian12.Notice("Please create a unit first!");
+          new import_obsidian13.Notice("Please create a unit first!");
           return;
         }
         new UnitSuggestModal(this.app, this.data.studentUnits, (unit) => {
-          new ExamModal(this.app, unit, async (examData) => {
-            const exam = await this.studentManager.addExam(unit.id, examData);
-            if (exam) {
-              new import_obsidian12.Notice(`Exam "${exam.title}" added!`);
-              this.app.workspace.trigger("better-task:data-change");
-            }
+          new ExamModal(this.app, unit, (examData) => {
+            void (async () => {
+              const exam = await this.studentManager.addExam(unit.id, examData);
+              if (exam) {
+                new import_obsidian13.Notice(`Exam "${exam.title}" added!`);
+                this.app.workspace.trigger("better-task:data-change");
+              }
+            })();
           }).open();
         }).open();
       }
@@ -2023,23 +2062,21 @@ var BetterTaskPlugin = class extends import_obsidian12.Plugin {
     this.addCommand({
       id: "undo-action",
       name: "Undo",
-      hotkeys: [{ modifiers: ["Mod"], key: "z" }],
       callback: () => {
-        this.undo();
+        void this.undo();
       }
     });
     this.addCommand({
       id: "redo-action",
       name: "Redo",
-      hotkeys: [{ modifiers: ["Mod", "Shift"], key: "z" }],
       callback: () => {
-        this.redo();
+        void this.redo();
       }
     });
   }
   onunload() {
     var _a;
-    console.log("Unloading Better Task plugin");
+    console.debug("Unloading Better Task plugin");
     (_a = this.notificationManager) == null ? void 0 : _a.stopBackgroundCheck();
   }
   async loadPluginData() {
@@ -2058,7 +2095,7 @@ var BetterTaskPlugin = class extends import_obsidian12.Plugin {
       leaf = workspace.getLeaf(true);
       await leaf.setViewState({ type: DASHBOARD_VIEW_TYPE, active: true });
     }
-    workspace.revealLeaf(leaf);
+    void workspace.revealLeaf(leaf);
   }
   /**
    * Save current state to undo stack before making changes
@@ -2081,10 +2118,12 @@ var BetterTaskPlugin = class extends import_obsidian12.Plugin {
    */
   async undo() {
     if (this.undoStack.length === 0) {
-      new import_obsidian12.Notice("Nothing to undo");
+      new import_obsidian13.Notice("Nothing to undo");
       return;
     }
     const entry = this.undoStack.pop();
+    if (!entry)
+      return;
     const currentState = this.captureCurrentState(entry.action, entry.previousState);
     this.redoStack.push({
       action: entry.action,
@@ -2092,17 +2131,19 @@ var BetterTaskPlugin = class extends import_obsidian12.Plugin {
       timestamp: Date.now()
     });
     await this.restoreState(entry.action, entry.previousState);
-    new import_obsidian12.Notice(`Undone: ${this.getActionLabel(entry.action)}`);
+    new import_obsidian13.Notice(`Undone: ${this.getActionLabel(entry.action)}`);
   }
   /**
    * Redo the last undone action
    */
   async redo() {
     if (this.redoStack.length === 0) {
-      new import_obsidian12.Notice("Nothing to redo");
+      new import_obsidian13.Notice("Nothing to redo");
       return;
     }
     const entry = this.redoStack.pop();
+    if (!entry)
+      return;
     const currentState = this.captureCurrentState(entry.action, entry.previousState);
     this.undoStack.push({
       action: entry.action,
@@ -2110,7 +2151,7 @@ var BetterTaskPlugin = class extends import_obsidian12.Plugin {
       timestamp: Date.now()
     });
     await this.restoreState(entry.action, entry.previousState);
-    new import_obsidian12.Notice(`Redone: ${this.getActionLabel(entry.action)}`);
+    new import_obsidian13.Notice(`Redone: ${this.getActionLabel(entry.action)}`);
   }
   /**
    * Capture current state for redo
@@ -2213,7 +2254,7 @@ var BetterTaskPlugin = class extends import_obsidian12.Plugin {
     return labels[action] || action;
   }
 };
-var BetterTaskSettingTab = class extends import_obsidian12.PluginSettingTab {
+var BetterTaskSettingTab = class extends import_obsidian13.PluginSettingTab {
   constructor(app, plugin) {
     super(app, plugin);
     this.plugin = plugin;
@@ -2221,27 +2262,27 @@ var BetterTaskSettingTab = class extends import_obsidian12.PluginSettingTab {
   display() {
     const { containerEl } = this;
     containerEl.empty();
-    containerEl.createEl("h2", { text: "Better Task Settings" });
-    new import_obsidian12.Setting(containerEl).setName("Enable notifications").setDesc("Show reminders for upcoming tasks").addToggle((toggle) => toggle.setValue(this.plugin.data.settings.notificationsEnabled).onChange(async (value) => {
+    new import_obsidian13.Setting(containerEl).setHeading().setName("Better task settings");
+    new import_obsidian13.Setting(containerEl).setName("Enable notifications").setDesc("Show reminders for upcoming tasks").addToggle((toggle) => toggle.setValue(this.plugin.data.settings.notificationsEnabled).onChange(async (value) => {
       this.plugin.data.settings.notificationsEnabled = value;
       await this.plugin.savePluginData();
     }));
-    new import_obsidian12.Setting(containerEl).setName("Notification sound").setDesc("Play sound with notifications").addToggle((toggle) => toggle.setValue(this.plugin.data.settings.reminderSound).onChange(async (value) => {
+    new import_obsidian13.Setting(containerEl).setName("Notification sound").setDesc("Play sound with notifications").addToggle((toggle) => toggle.setValue(this.plugin.data.settings.reminderSound).onChange(async (value) => {
       this.plugin.data.settings.reminderSound = value;
       await this.plugin.savePluginData();
     }));
-    new import_obsidian12.Setting(containerEl).setName("Streak warning threshold").setDesc("Show warning after missing this many days").addSlider((slider) => slider.setLimits(1, 30, 1).setValue(this.plugin.data.settings.streakWarningDays).setDynamicTooltip().onChange(async (value) => {
+    new import_obsidian13.Setting(containerEl).setName("Streak warning threshold").setDesc("Show warning after missing this many days").addSlider((slider) => slider.setLimits(1, 30, 1).setValue(this.plugin.data.settings.streakWarningDays).setDynamicTooltip().onChange(async (value) => {
       this.plugin.data.settings.streakWarningDays = value;
       await this.plugin.savePluginData();
     }));
-    new import_obsidian12.Setting(containerEl).setName("Student Mode").setDesc("Enable semester tracking and exam scheduling").addToggle((toggle) => toggle.setValue(this.plugin.data.settings.studentMode).onChange(async (value) => {
+    new import_obsidian13.Setting(containerEl).setName("Student Mode").setDesc("Enable semester tracking and exam scheduling").addToggle((toggle) => toggle.setValue(this.plugin.data.settings.studentMode).onChange(async (value) => {
       this.plugin.data.settings.studentMode = value;
       await this.plugin.savePluginData();
       this.plugin.app.workspace.trigger("better-task:data-change");
     }));
   }
 };
-var UnitSuggestModal = class extends import_obsidian12.FuzzySuggestModal {
+var UnitSuggestModal = class extends import_obsidian13.FuzzySuggestModal {
   constructor(app, units, onChoose) {
     super(app);
     this.units = units;

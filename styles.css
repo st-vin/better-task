@@ -599,6 +599,18 @@
     transition: width 0.3s ease;
 }
 
+.goal-health-ring.health-low {
+    border-color: var(--text-error);
+}
+
+.goal-health-ring.health-medium {
+    border-color: var(--text-warning);
+}
+
+.goal-health-ring.health-high {
+    border-color: var(--text-success);
+}
+
 .health-low {
     background-color: var(--text-error);
 }
@@ -1145,4 +1157,26 @@
 
 .unit-action-btn:hover {
     background-color: var(--interactive-accent-hover);
+}
+
+.task-conflict-warning {
+    color: var(--text-error);
+    margin-bottom: 15px;
+    padding: 10px;
+    background-color: rgba(233, 62, 62, 0.1);
+    border-radius: 5px;
+    font-size: 0.9em;
+}
+
+.task-conflict-warning.hidden {
+    display: none;
+}
+
+.textarea-full-width {
+    width: 100%;
+}
+
+.day-checkbox-container {
+    display: inline-block;
+    margin-right: 10px;
 }

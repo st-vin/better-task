@@ -11,7 +11,7 @@ export class TaskManager {
     }
 
     async createDailyTask(goalId: string, taskData: Partial<DailyTask>): Promise<DailyTask> {
-        const id = Date.now().toString(36) + Math.random().toString(36).substr(2);
+        const id = Date.now().toString(36) + Math.random().toString(36).substring(2);
         const newTask: DailyTask = {
             id,
             goalId,
@@ -35,7 +35,7 @@ export class TaskManager {
     }
 
     async createFreeTask(taskData: Partial<FreeTask>): Promise<FreeTask> {
-        const id = Date.now().toString(36) + Math.random().toString(36).substr(2);
+        const id = Date.now().toString(36) + Math.random().toString(36).substring(2);
         const newTask: FreeTask = {
             id,
             title: taskData.title || 'New Task',

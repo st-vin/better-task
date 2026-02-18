@@ -21,9 +21,9 @@ export class NotificationManager {
         if (!Platform.isDesktop) return;
 
         if (Notification.permission === 'default') {
-            Notification.requestPermission().then(permission => {
+            void Notification.requestPermission().then(permission => {
                 if (permission === 'granted') {
-                    console.log('Notification permission granted');
+                    console.debug('Notification permission granted');
                 }
             });
         }

@@ -15,7 +15,7 @@ export class GoalModal extends Modal {
     onOpen() {
         const { contentEl } = this;
 
-        contentEl.createEl('h1', { text: this.initialData ? 'Edit Goal' : 'Create New Goal' });
+        contentEl.createEl('h1', { text: this.initialData ? 'Edit goal' : 'Create new goal' });
 
         new Setting(contentEl)
             .setName('Title')

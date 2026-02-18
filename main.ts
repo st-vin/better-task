@@ -44,7 +44,7 @@ export default class BetterTaskPlugin extends Plugin {
     redoStack: UndoRedoEntry[] = [];
 
     async onload() {
-        console.log('Loading Better Task plugin');
+        console.debug('Loading Better Task plugin');
 
         await this.loadPluginData();
 
@@ -59,10 +59,12 @@ export default class BetterTaskPlugin extends Plugin {
 
         // Check for welcome modal
         if (!this.data.settings.hasSeenWelcome) {
-            new WelcomeModal(this.app, async () => {
-                this.data.settings.hasSeenWelcome = true;
-                await this.savePluginData();
-                this.activateView();
+            new WelcomeModal(this.app, () => {
+                void (async () => {
+                    this.data.settings.hasSeenWelcome = true;
+                    await this.savePluginData();
+                    this.activateView();
+                })();
             }).open();
         }
 
@@ -72,8 +74,8 @@ export default class BetterTaskPlugin extends Plugin {
         );
 
         // This creates an icon in the left ribbon.
-        this.addRibbonIcon('check-circle', 'Better Task', (evt: MouseEvent) => {
-            this.activateView();
+        this.addRibbonIcon('check-circle', 'Better Task', () => {
+            void this.activateView();
         });
 
         // Add settings tab
@@ -82,35 +84,35 @@ export default class BetterTaskPlugin extends Plugin {
         // Register commands
         this.addCommand({
             id: 'open-dashboard',
-            name: 'Open Dashboard',
+            name: 'Open dashboard',
             callback: () => {
-                this.activateView();
+                void this.activateView();
             }
         });
 
         this.addCommand({
             id: 'create-goal',
-            name: 'Create New Goal',
+            name: 'Create new goal',
             callback: () => {
-                new GoalModal(this.app, async (result) => {
-                    await this.goalManager.createGoal(result.title, result.description);
+                new GoalModal(this.app, (result) => {
+                    void this.goalManager.createGoal(result.title, result.description);
                 }).open();
             }
         });
 
         this.addCommand({
             id: 'create-daily-task',
-            name: 'Create Daily Task',
+            name: 'Create daily task',
             callback: () => {
                 if (this.data.goals.length === 0) {
                     new Notice('Please create a goal first!');
                     return;
                 }
 
-                new TaskModal(this, 'daily', this.data.goals, async (result) => {
+                new TaskModal(this, 'daily', this.data.goals, (result) => {
                     if (result.goalId) {
                         // Ensure result.goalId is present
-                        await this.taskManager.createDailyTask(result.goalId, result);
+                        void this.taskManager.createDailyTask(result.goalId, result);
                     } else {
                         new Notice('No goal selected!');
                     }
@@ -122,8 +124,8 @@ export default class BetterTaskPlugin extends Plugin {
             id: 'create-free-task',
             name: 'Create Quick Task',
             callback: () => {
-                new TaskModal(this, 'free', [], async (result) => {
-                    await this.taskManager.createFreeTask(result);
+                new TaskModal(this, 'free', [], (result) => {
+                    void this.taskManager.createFreeTask(result);
                 }).open();
             }
         });
@@ -131,23 +133,25 @@ export default class BetterTaskPlugin extends Plugin {
         // Student Mode commands
         this.addCommand({
             id: 'create-unit',
-            name: 'Create Unit/Course',
+            name: 'Create unit/course',
             callback: () => {
                 if (!this.data.settings.studentMode) {
                     new Notice('Please enable Student Mode in settings first!');
                     return;
                 }
-                new UnitModal(this.app, async (unitData, shouldClose) => {
-                    const unit = await this.studentManager.createUnit(unitData);
-                    new Notice(`Unit "${unit.name}" created!`);
-                    this.app.workspace.trigger('better-task:data-change');
+                new UnitModal(this.app, (unitData, shouldClose) => {
+                    void (async () => {
+                        const unit = await this.studentManager.createUnit(unitData);
+                        new Notice(`Unit "${unit.name}" created!`);
+                        this.app.workspace.trigger('better-task:data-change');
+                    })();
                 }).open();
             }
         });
 
         this.addCommand({
             id: 'add-exam',
-            name: 'Add Exam',
+            name: 'Add exam',
             callback: () => {
                 if (!this.data.settings.studentMode) {
                     new Notice('Please enable Student Mode in settings first!');
@@ -159,13 +163,15 @@ export default class BetterTaskPlugin extends Plugin {
                 }
 
                 new UnitSuggestModal(this.app, this.data.studentUnits, (unit) => {
-                    new ExamModal(this.app, unit, async (examData) => {
-                        const exam = await this.studentManager.addExam(unit.id, examData);
-                        if (exam) {
-                            new Notice(`Exam "${exam.title}" added!`);
-                            // Refresh logic handled by data change event or manual refresh if needed
-                            this.app.workspace.trigger('better-task:data-change');
-                        }
+                    new ExamModal(this.app, unit, (examData) => {
+                        void (async () => {
+                            const exam = await this.studentManager.addExam(unit.id, examData);
+                            if (exam) {
+                                new Notice(`Exam "${exam.title}" added!`);
+                                // Refresh logic handled by data change event or manual refresh if needed
+                                this.app.workspace.trigger('better-task:data-change');
+                            }
+                        })();
                     }).open();
                 }).open();
             }
@@ -175,24 +181,22 @@ export default class BetterTaskPlugin extends Plugin {
         this.addCommand({
             id: 'undo-action',
             name: 'Undo',
-            hotkeys: [{ modifiers: ['Mod'], key: 'z' }],
             callback: () => {
-                this.undo();
+                void this.undo();
             }
         });
 
         this.addCommand({
             id: 'redo-action',
             name: 'Redo',
-            hotkeys: [{ modifiers: ['Mod', 'Shift'], key: 'z' }],
             callback: () => {
-                this.redo();
+                void this.redo();
             }
         });
     }
 
     onunload() {
-        console.log('Unloading Better Task plugin');
+        console.debug('Unloading Better Task plugin');
         this.notificationManager?.stopBackgroundCheck();
     }
 
@@ -219,7 +223,7 @@ export default class BetterTaskPlugin extends Plugin {
             await leaf.setViewState({ type: DASHBOARD_VIEW_TYPE, active: true });
         }
 
-        workspace.revealLeaf(leaf);
+        void workspace.revealLeaf(leaf);
     }
 
     /**
@@ -253,7 +257,8 @@ export default class BetterTaskPlugin extends Plugin {
             return;
         }
 
-        const entry = this.undoStack.pop()!;
+        const entry = this.undoStack.pop();
+        if (!entry) return;
 
         // Save current state to redo stack
         const currentState = this.captureCurrentState(entry.action, entry.previousState);
@@ -278,7 +283,8 @@ export default class BetterTaskPlugin extends Plugin {
             return;
         }
 
-        const entry = this.redoStack.pop()!;
+        const entry = this.redoStack.pop();
+        if (!entry) return;
 
         // Save current state to undo stack
         const currentState = this.captureCurrentState(entry.action, entry.previousState);
@@ -417,7 +423,9 @@ class BetterTaskSettingTab extends PluginSettingTab {
         const { containerEl } = this;
         containerEl.empty();
 
-        containerEl.createEl('h2', { text: 'Better Task Settings' });
+        new Setting(containerEl)
+            .setHeading()
+            .setName('Better task settings');
 
         new Setting(containerEl)
             .setName('Enable notifications')
